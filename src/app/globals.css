@@ -9,5 +9,8 @@
 }
 
 @layer utilities {
+  .contact_input{
+    @apply bg-background text-sm text-primary mt-5 w-[300px] p-3 border border-secondary rounded-md focus-visible:ring-0 focus-visible:outline-none
+  }
   
 }

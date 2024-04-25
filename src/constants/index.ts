@@ -122,3 +122,17 @@ export const Cities_Images = [
         label: "Jimma"
     },
 ]
+export const Steps = [
+    {
+        title: "Register",
+        description: "Answer a few questions about yourself, your lifestyle, and your preferences, and we'll match you with compatible roommates."
+    },
+    {
+        title: "Explore",
+        description: "Browse through profiles, photos, and interests of other people to find the right match in your local area."
+    },
+    {
+        title: "Connect",
+        description: "Reach out to your potential roommates through our platform and start building a meaningful connection"
+    }
+]

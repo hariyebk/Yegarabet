@@ -15,7 +15,7 @@ export default async function Cities() {
                     return (
                         <div key={element.label} className="">
                             <Image src={element.image} alt="city-image" width={200} height={100}/>
-                            <p className="mt-4 text-base text-center text-primary"> {element.label} </p>
+                            <p className="mt-4 text-base text-center text-secondary"> {element.label} </p>
                         </div>
                     )
                 })}

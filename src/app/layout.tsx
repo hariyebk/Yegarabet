@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RoomLink",
+  title: "🏠 RoomLink",
   description: "Find compatible roommates for shared accommodation",
 };
 
