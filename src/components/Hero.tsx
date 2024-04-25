@@ -9,11 +9,11 @@ export default async function Hero() {
                 <h2 className="text-main text-[60px]"> RoomLink </h2>
                 <p className="text-primary text-[56px] mt-5 leading-[65px]"> A place where you can find Compatible Roommates</p>
                 <p className="text-[25px] text-secondary mt-5 leading-9"> We Know Living Alone is Expensive. Cut down Your costs by sharing with others. </p>
-                <div className="mt-14">
-                    <Link href="/signup" className="w-[300px] bg-main px-6 py-2 text-black text-xl font-bold rounded-sm"> Get started </Link>
+                <div className="mt-10">
+                    <Link href="/signup" className="w-[300px] transition-all duration-100 bg-main px-6 py-2 text-black text-xl font-bold rounded-sm"> Get started </Link>
                 </div>
             </div>
-            <Image src={HeroImage} alt="hero-image" width={500} height={180} className="rounded-md" />
+            <Image src={HeroImage} alt="hero-image" width={450} height={180} className="rounded-md" />
         </div>
     )
 }

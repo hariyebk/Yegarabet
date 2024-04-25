@@ -1,3 +1,14 @@
+import addisababa from "/public/cities/addisababa.png"
+import adama from "/public/cities/adama.jpg"
+import mekelle from "/public/cities/mekele.jpg"
+import hawassa from "/public/cities/hawassa.jpg"
+import bahirdar from "/public/cities/bahirdar.jpg"
+import diredawa from "/public/cities/diredawa.jpg"
+import harar from "/public/cities/harar.jpg"
+import arbaminch from "/public/cities/arbaminch.jpg"
+import gonder from "/public/cities/gonder.jpg"
+import jimma from "/public/cities/jimma.jpg"
+
 export const Nav_Links = [
     {
         label: "Find Roommates",
@@ -68,4 +79,46 @@ export const Footer_Links = [
             }
         ]
     }
+]
+export const Cities_Images = [
+    {
+        image: addisababa,
+        label: "Addis Ababa"
+    },
+    {
+        image: adama,
+        label: "Adama"
+    },
+    {
+        image: mekelle,
+        label: "Mekelle"
+    },
+    {
+        image: hawassa,
+        label: "Hawassa"
+    },
+    {
+        image: bahirdar,
+        label: "Bahirdar"
+    },
+    {
+        image: diredawa,
+        label: "Dire Dawa"
+    },
+    {
+        image: harar,
+        label: "Harar"
+    },
+    {
+        image: arbaminch,
+        label: "Arbaminch"
+    },
+    {
+        image: gonder,
+        label: "Gonder"
+    },
+    {
+        image: jimma,
+        label: "Jimma"
+    },
 ]
