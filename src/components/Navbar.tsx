@@ -4,7 +4,7 @@ import Link from "next/link"
 
 export default async function Navbar() {
     return (
-        <main className="w-full fixed p-7 shadow-sm shadow-black">
+        <main className="w-full bg-background h-[80px] fixed inset-y-0 top-0 p-7 shadow shadow-black">
             <nav className="flex items-center justify-between px-10 ">
                 <div className="flex items-center gap-20">
                     <Link href="/">

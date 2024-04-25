@@ -9,7 +9,7 @@ import { Footer_Links } from '@/constants';
 
 export default function Footer() {
     return (
-        <main className='fixed inset-x-0 bottom-0 h-[350px] bg-card'>
+        <main className='relative inset-x-0 bottom-0 h-[350px] bg-card'>
             <footer className='pt-10 px-24'>
                 <div className='mb-10 flex items-start justify-between'>
                     <div className=''>
