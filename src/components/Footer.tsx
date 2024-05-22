@@ -13,7 +13,7 @@ export default function Footer() {
             <footer className='pt-10 px-24'>
                 <div className='mb-10 flex items-start justify-between'>
                     <div className=''>
-                        <h3 className='text-2xl'> 🏠RoomLink </h3>
+                        <h3 className='text-2xl'> 🏠Yegarabet </h3>
                         <p className='w-[400px] text-sm mt-5 leading-7'> Reduce the financial burden of living alone, and build a vibrant, connected, and enriching living experience. Join us in making shared living a positive, life-enhancing journey. </p>
                     </div>
                     <div className='flex items-center justify-end mr-10 gap-20'>
@@ -35,7 +35,7 @@ export default function Footer() {
                 </div>
                 <hr className='w-full border-t-0.5 border-regular' />
                 <div className='flex items-center justify-between mt-14 pb-10 mr-10'>
-                    <p className='text-sm text-regular'> Copyright @ 2024 RoomLink All rights reserved. </p>
+                    <p className='text-sm text-regular'> Copyright @ 2024 Yegarabet All rights reserved. </p>
                     <ul className='flex items-center gap-5'>
                         <Link href="https://www.facebook.com"> <FaFacebook className='w-4 h-4' /> </Link>
                         <Link href="https://www.instagram.com"> <FaInstagram className='w-4 h-4' /> </Link>

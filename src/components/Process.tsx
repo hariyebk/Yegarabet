@@ -1,4 +1,5 @@
 import { Steps } from "@/constants";
+import Link from "next/link";
 
 export default function Process() {
     return (
@@ -8,7 +9,7 @@ export default function Process() {
                 {Steps.map((item) => {
                     return (
                         <section key={item.title} className="flex flex-col items-center w-[300px]">
-                            <h3 className="text-2xl text-main font-bold"> {item.title} </h3>
+                            <Link href={item.path} className="text-2xl text-main font-bold"> {item.title} </Link>
                             <p className="text-center text-secondary leading-6 mt-4"> {item.description} </p>
                         </section>
                     )

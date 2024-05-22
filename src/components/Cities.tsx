@@ -13,8 +13,8 @@ export default async function Cities() {
             <div className="flex flex-wrap items-center gap-6 mt-16 ml-6">
                 {Cities_Images.map((element) => {
                     return (
-                        <div key={element.label} className="">
-                            <Image src={element.image} alt="city-image" width={200} height={100}/>
+                        <div key={element.label}>
+                            <Image src={element.image} alt="city-image" width={200} height={100} className="transition ease-in delay-140 hover:-translate-y-1 hover:scale-110  duration-300"/>
                             <p className="mt-4 text-base text-center text-secondary"> {element.label} </p>
                         </div>
                     )

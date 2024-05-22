@@ -125,14 +125,39 @@ export const Cities_Images = [
 export const Steps = [
     {
         title: "Register",
-        description: "Answer a few questions about yourself, your lifestyle, and your preferences, and we'll match you with compatible roommates."
+        description: "Answer a few questions about yourself, your lifestyle, and your preferences, and we'll match you with compatible roommates.",
+        path: '/signup'
     },
     {
         title: "Explore",
-        description: "Browse through profiles, photos, and interests of other people to find the right match in your local area."
+        description: "Browse through profiles, photos, and interests of other people to find the right match in your local area.",
+        path: '/find-roommates'
     },
     {
         title: "Connect",
-        description: "Reach out to your potential roommates through our platform and start building a meaningful connection"
+        description: "Reach out to your potential roommates through our platform and start building a meaningful connection",
+        path: "/find-roommates"
     }
+]
+export const dummyData = [
+    {
+        firstName: "Harun",
+        roommates: 2
+    }
+]
+export const cities = [
+    "All",
+    "Addis Ababa",
+    "Dire Dawa",
+    "Mekele",
+    "Hawasa",
+    "Bahirdar",
+    "Adama",
+    "Gonder",
+    "Harar",
+    "Shashemene",
+    "Jimma",
+    "Dessie",
+    "Arba minch",
+    "Hosana"
 ]

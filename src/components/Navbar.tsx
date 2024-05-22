@@ -1,5 +1,4 @@
 import { Nav_Links } from "@/constants"
-import Image from "next/image"
 import Link from "next/link"
 
 export default async function Navbar() {
@@ -8,7 +7,7 @@ export default async function Navbar() {
             <nav className="flex items-center justify-between px-10 ">
                 <div className="flex items-center gap-20">
                     <Link href="/">
-                        <span> 🏠RoomLink </span>
+                        <span> 🏠Yegarabet </span>
                     </Link>
                     <ul className="flex items-center gap-10">
                         {Nav_Links.map((link) => {
@@ -21,7 +20,7 @@ export default async function Navbar() {
                     </ul>
                 </div>
                 <div className="flex items-center gap-14 text-regular text-sm">
-                    <Link href="/login"> Login </Link>
+                    <Link href="/signin"> Signin </Link>
                     <Link href="/signup"> Signup </Link>
                 </div>
             </nav>

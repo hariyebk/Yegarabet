@@ -3,11 +3,12 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "🏠 RoomLink",
+  title: "Yegarabet",
   description: "Find compatible roommates for shared accommodation",
 };
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={nunito.className}>
+        <Toaster />
         <Navbar />
         {children}
         <Footer/>
