@@ -9,6 +9,7 @@ import arbaminch from "/public/cities/arbaminch.jpg"
 import gonder from "/public/cities/gonder.jpg"
 import jimma from "/public/cities/jimma.jpg"
 
+
 export const Nav_Links = [
     {
         label: "Find Roommates",
@@ -161,3 +162,15 @@ export const cities = [
     "Arba minch",
     "Hosana"
 ]
+
+type SOCIALS_TYPE = {
+    facebook: number,
+    instagram: number,
+    telegram: number
+} & { [key: string]: number }
+
+export const SOCIALS : SOCIALS_TYPE = {
+    facebook: 1,
+    instagram: 2,
+    telegram: 3,
+} 

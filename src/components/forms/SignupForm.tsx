@@ -10,13 +10,14 @@ import Link from "next/link"
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from "../ui/select"
 import { GoEye, GoEyeClosed } from "react-icons/go"
 import { cities } from "@/constants"
+import SecondStepRegistration from "./SecondStepRegistration"
 
 
 
 export default function SignupForm() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [currentState, setCurrentState] = useState<number>(1)
+    const [secondStep, setSecondStep] = useState<boolean>(true)
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [confirmShowPassword, setConfirmShowPassword] = useState<boolean>(false)
 
@@ -70,14 +71,9 @@ export default function SignupForm() {
         </header>
         <div className="flex items-center justify-center">
         <div className="mt-7 w-[700px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20">
-            <div className="flex flex-col flex-1 items-center">
+            {!secondStep && <div className="flex flex-col flex-1 items-center">
                 <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Create your Account </h3>
                 <p className="text-sm text-secondary mt-3 mb-2"> Let's get you started. Please enter your details </p>
-                {currentState > 1 && <div className="mt-4 w-full flex items-start justify-start">
-                    <button onClick={() => setCurrentState((state) => state - 1)}>
-                        <p className="text-button font-semibold"> Go Back </p>
-                    </button>
-                </div>}
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center gap-2 mt-7">
                         <div className="createAccountFormContainer">
@@ -302,13 +298,14 @@ export default function SignupForm() {
                             </FormItem> 
                             )} />
                         </div>
-                        <div className="text-sm text-primary mt-6 mb-2"> Already have an account ? <Link href="/signin" className="text-button font-semibold"> Signin </Link> </div>
+                        <div className="text-sm text-primary mt-6 mb-2"> Already have an account ? <Link href="/signin" className="text-button font-semibold ml-2"> Signin </Link> </div>
                         <button type="submit" className="bg-button w-full mt-3 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none">
                             Next
                         </button>
                     </form>
                 </Form>
-            </div>
+            </div>}
+            {secondStep && <SecondStepRegistration />}
         </div>
         </div>
     </section>

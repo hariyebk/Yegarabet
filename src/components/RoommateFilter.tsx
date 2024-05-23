@@ -27,7 +27,7 @@ export default function RoommateFilter() {
                 e.preventDefault()
                 handleSearch()
             }} className="w-[240px] h-[50px] px-3 py-2 flex items-center justify-between border border-slate-700 bg-card rounded-md">
-                <input type="text" defaultValue="Addis Ababa" onChange={(e) => setSearchInput(e.target.value)} className="border-none bg-card w-[200px] p-2 text-sm text-primary focus-visible:outline-none"  />
+                <input type="text" placeholder="search by city" onChange={(e) => setSearchInput(e.target.value)} className="border-none bg-card w-[200px] p-2 text-sm text-primary focus-visible:outline-none"  />
                 <button type="button" onClick={handleSearch} className="mr-3">
                     <CiSearch className="w-5 h-5 text-primary" />
                 </button>
