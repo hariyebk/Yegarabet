@@ -8,14 +8,14 @@ export const SiginFormSchema = z.object({
 export const SignupFormSchema = z.object({
     firstName: z.string().min(1, {message: "first name is required"}).max(10, {message: "first name is too long"}),
     lastName: z.string().min(1, {message: "first name is required"}).max(10, {message: "first name is too long"}),
-    email: z.string().email().min(1, {message: "email is required"}),
-    gender: z.string().min(1, {message: "you didn't select gender"}),
+    email: z.string().min(1, {message: "email is required"}).email(),
+    gender: z.string().min(1, {message: "you didn't select your gender"}),
     birthDate: z.string().min(1, {message: "birth date is required"}),
-    phoneNumber: z.string(),
-    city: z.string().min(1, {message: "city is required"}),
+    phoneNumber: z.string().min(9, {message: "invalid phone number"}).max(9, {message: "remove 0 at the start"}).regex(/^[0-9]+$/),
+    city: z.string().min(1, {message: "city is required"}).max(10, {message: "city is too long"}),
+    profession: z.string().min(1, {message: "profession is required"}).max(14, {message: "professtion is too long"}),
     password: z.string().min(1, {message: "password is required"}),
     passwordConfirm: z.string().min(1, {message: "please re-enter your password here"}),
-    description: z.string().min(1, {message: "please describe yourself here"})
 }).refine((value) => {
     // convert the string into date
     const birthdate = new Date(value.birthDate);
@@ -31,7 +31,7 @@ export const SignupFormSchema = z.object({
         path: ["birthDate"]
     }
 ).refine(value => {
-    return value.passwordConfirm !== value.password
+    return value.passwordConfirm === value.password
     },
     {
         message: "password doesn't macth",

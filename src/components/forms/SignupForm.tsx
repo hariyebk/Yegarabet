@@ -9,6 +9,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from "../ui/select"
 import { GoEye, GoEyeClosed } from "react-icons/go"
+import { cities } from "@/constants"
 
 
 
@@ -30,18 +31,43 @@ export default function SignupForm() {
             birthDate: "",
             phoneNumber: "",
             city: "",
+            profession: "",
             password: "",
             passwordConfirm: "",
-            description: ""
         },
     })
 
     async function onSubmit(values: z.infer<typeof  SignupFormSchema>){
+
+        const data = {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            gender: values.gender,
+            birthDate: values.birthDate,
+            city: values.city,
+            profession: values.profession,
+            password: values.password,
+            phoneNumber: `0${values.phoneNumber}`
+        }
+        setIsLoading(true)
+        try{
+
+        }
+        catch(error: any){
+
+        }
+        finally{
+            setIsLoading(false)
+        }
     }
 
 
     return (
     <section className="ml-10">
+        <header>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
+        </header>
         <div className="flex items-center justify-center">
         <div className="mt-7 w-[700px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20">
             <div className="flex flex-col flex-1 items-center">
@@ -124,7 +150,7 @@ export default function SignupForm() {
                                             <SelectValue placeholder="Select Gender"/>
                                         </SelectTrigger>
                                     </FormControl>
-                                    <SelectContent className="bg-primary  text-sm text-black">
+                                    <SelectContent>
                                         <SelectItem value="Male"> Male </SelectItem>
                                         <SelectItem value="Female"> Female </SelectItem>
                                     </SelectContent>
@@ -162,7 +188,15 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <div className="flex items-center gap-2 max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white">
+                                        <div className="flex items-center gap-2">
+                                            <div className="block">
+                                                <span className="fi fi-et" />
+                                            </div>
+                                            <p className="text-sm"> +251 </p>
+                                        </div>
+                                        <input type="text" disabled={isLoading} {...field} autoComplete="off" className="max-sm:w-[180px] sm:w-[230px] bg-inherit border-none focus-visible:outline-none" />
+                                    </div>
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -182,7 +216,7 @@ export default function SignupForm() {
                                 </FormLabel>
                                 <FormControl>
                                     <div className="flex items-center justify-between max-sm:w-[200px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3">
-                                        <input type={`${showPassword ? "text" : "password"}`} disabled={isLoading} {...field} placeholder="*********" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
+                                        <input type={`${showPassword ? "text" : "password"}`} disabled={isLoading} {...field} placeholder="*********" autoComplete="new-password" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
                                         {showPassword ? <button type="button" onClick={() => setShowPassword(false)}> 
                                             <GoEye className="w-4 h-4 text-black" />
                                         </button> : <button type="button" onClick={() => setShowPassword(true)}> 
@@ -220,6 +254,53 @@ export default function SignupForm() {
                             </FormItem>
                             )}
                             />
+                        </div>
+                        <div className="createAccountFormContainer">
+                            {/* CITY */}
+                            <FormField
+                            control={form.control}
+                            name="city"
+                            render={({ field }) => (
+                            <FormItem className="mt-4 flex flex-col items-start gap-2">
+                                <FormLabel className="text-base text-primary"> 
+                                City
+                                <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
+                                </FormLabel>
+                                <Select onValueChange= {field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger {...field} className="bg-primary max-sm:w-[200px] sm:w-[250px] px-3 py-2 text-black focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
+                                            <SelectValue placeholder="Select City"/>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {cities.map((city, index) => {
+                                            return (
+                                                <div key={city}>
+                                                    {index !== 0 && <SelectItem value={city} > {city} </SelectItem>}
+                                                </div>
+                                            )
+                                        })}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem> 
+                            )} />
+                            {/* PROFESSION */}
+                            <FormField
+                            control={form.control}
+                            name="profession"
+                            render={({ field }) => (
+                            <FormItem className="mt-4 flex flex-col items-start gap-2">
+                                <FormLabel className="text-base text-primary"> 
+                                Profession
+                                <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
+                                </FormLabel>
+                                <FormControl>
+                                    <input type="text" disabled={isLoading} {...field} placeholder="Engineer" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem> 
+                            )} />
                         </div>
                         <div className="text-sm text-primary mt-6 mb-2"> Already have an account ? <Link href="/signin" className="text-button font-semibold"> Signin </Link> </div>
                         <button type="submit" className="bg-button w-full mt-3 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none">

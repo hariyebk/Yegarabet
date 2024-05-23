@@ -51,7 +51,9 @@ export default function RoommateFilter() {
                 <SelectContent className="bg-card border border-slate-700 text-primary">
                     {cities.map((city) => {
                         return (
-                            <SelectItem value={city} > {city} </SelectItem>
+                            <div key={city}>
+                                <SelectItem value={city} > {city} </SelectItem>
+                            </div>
                         )
                     })}
                 </SelectContent>

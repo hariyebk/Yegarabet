@@ -5,6 +5,8 @@ import { GoEye, GoEyeClosed } from "react-icons/go";
 import { FcGoogle } from "react-icons/fc";
 import { FiMessageCircle } from "react-icons/fi";
 import { VscGithubInverted } from "react-icons/vsc";
+import { BsLinkedin } from "react-icons/bs";
+import Linkedin from "/public/linkedin.svg"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -14,6 +16,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import ClipLoader from "react-spinners/ClipLoader";
 import { Login, SocialLogin } from "@/actions";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Signin() {
 
@@ -125,9 +128,10 @@ export default function Signin() {
                             <p className="text-primary text-base"> or countinue with </p>
                             <hr className="border border-t-gray-400 w-[100px] max-md:w-[60px]" />
                         </div>
-                        <div className="mt-10 flex items-start gap-20">
-                            <button onClick={() => handleSocialLogin("github")} disabled={isLoading} className="px-16 max-md:px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
-                                <VscGithubInverted className="w-6 h-6" />
+                        <div className="mt-10 flex items-start justify-center gap-20">
+                            <button onClick={() => handleSocialLogin("github")} disabled={isLoading} className="px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
+                                {/* <Image src={Linkedin} alt="linkedin-logo" width={25} height={20} className="" /> */}
+                                <BsLinkedin className="w-6 h-6 text-blue-500" />
                             </button>
                             <button onClick={() => handleSocialLogin("google")} disabled={isLoading} className="px-10 max-md:px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
                                 <FcGoogle className="w-6 h-6" />
