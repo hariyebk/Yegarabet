@@ -174,3 +174,9 @@ export const SOCIALS : SOCIALS_TYPE = {
     instagram: 2,
     telegram: 3,
 } 
+export const BUDGET_PERIOS = [
+    "per day",
+    "per week",
+    "per month",
+    "per year"
+]

@@ -38,3 +38,11 @@ export const SignupFormSchema = z.object({
         path: ["passwordConfirm"]
     }
 )
+
+export const SecondStepSchema = z.object({
+    facebook: z.object({type: z.string(), link: z.string()}).optional(),
+    instagram: z.object({type: z.string(), link: z.string()}).optional(),
+    telegram: z.object({type: z.string(), link: z.string()}).optional(),
+    budget: z.string().min(1, {message: "budget is required"}).regex(/^[\d,]+$/),
+    description: z.string().min(1, {message: "this field is required"})
+})

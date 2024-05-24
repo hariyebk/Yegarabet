@@ -21,7 +21,6 @@ export default function SignupForm() {
     const [showPassword, setShowPassword] = useState<boolean>(false)
     const [confirmShowPassword, setConfirmShowPassword] = useState<boolean>(false)
 
-
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),
         defaultValues: {
@@ -62,7 +61,6 @@ export default function SignupForm() {
             setIsLoading(false)
         }
     }
-
 
     return (
     <section className="ml-10">

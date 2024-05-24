@@ -4,17 +4,17 @@ interface Props {
     image: StaticImageData,
     alt: string,
     isLoading: boolean,
-    setValue: React.Dispatch<React.SetStateAction<{type: string, link: string} | null>> 
+    fieldChange: ({type, link}: {type: string, link: string}) => void
 }
 
-export default function SocialLink({image, alt, isLoading, setValue} : Props) {
+export default function SocialLink({image, alt, isLoading, fieldChange} : Props) {
 
     return (
         <section className="flex flex-col items-start gap-4">
             <p className="text-base text-primary"> {alt.at(0)?.toUpperCase() + alt.slice(1)} </p>
             <div className="flex items-center gap-4 max-sm:w-[200px] sm:w-[250px] md:w-[300px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white">
                 <Image src={image} alt={`${alt}-logo`} width={20} height={20} className="w-[20px] h-[20px]"  />
-                <input type="text" disabled={isLoading} onChange={(e) => setValue({type: alt, link: e.target.value})}  className="max-sm:w-[180px] sm:w-[230px] md:w-[280px] bg-inherit border-none focus-visible:outline-none" />
+                <input type="text" disabled={isLoading} onChange={(e) => fieldChange({type: alt, link: e.target.value})}  className="max-sm:w-[180px] sm:w-[230px] md:w-[280px] bg-inherit border-none focus-visible:outline-none" />
             </div>
         </section>
     )
