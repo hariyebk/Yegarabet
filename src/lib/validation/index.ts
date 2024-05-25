@@ -45,4 +45,28 @@ export const SecondStepSchema = z.object({
     telegram: z.object({type: z.string(), link: z.string()}).optional(),
     budget: z.string().min(1, {message: "budget is required"}).regex(/^[\d,]+$/),
     description: z.string().min(1, {message: "this field is required"})
-})
+}).refine(
+    (value) => {
+        return !value.facebook ? true : value.facebook.link.startsWith("https://www.facebook.com")
+    },
+    {
+        message: "Invalid link",
+        path: ["facebook"]
+    }
+).refine(
+    (value) => {
+        return !value.instagram ? true : value.instagram.link.startsWith("https://www.instagram.com")
+    },
+    {
+        message: "Invalid link",
+        path: ["instagram"]
+    }
+).refine(
+    (value) => {
+        return !value.telegram ? true : value.telegram.link.startsWith("https://t.me/")
+    },
+    {
+        message: "Invalid link",
+        path: ["telegram"]
+    }
+)

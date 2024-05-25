@@ -1,6 +1,6 @@
 'use client'
 
-import { BUDGET_PERIOS, SOCIALS } from "@/constants"
+import { SOCIALS } from "@/constants"
 import { useEffect, useState } from "react"
 import Instagram from "/public/instagram.svg"
 import Telegram from "/public/telegram.svg"
@@ -14,25 +14,52 @@ import { SecondStepSchema } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Checkbox } from "../ui/checkbox"
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select"
+// import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select"
 import ClipLoader from "react-spinners/ClipLoader"
+import { STATE } from "./SignupForm"
 
+interface Props {
+    setState: React.Dispatch<React.SetStateAction<STATE>>
+}
 
+type STATE_TYPE = {
+    currentLink: number,
+    showLinks: number[],
+    isLoading: boolean,
+    numberOfRoommates: number,
+    roommatesNumberError: string,
+    hasRentedRoom: boolean | null,
+    pplLivingWith: string,
+    pplLivingWithError: string,
+    currentRentPrice?: string,
+    currentRentPriceError?: string
+}
 
-export default function SecondStepRegistration() {
+const INITIAL_STATE : STATE_TYPE = {
+    currentLink: 1,
+    showLinks: [SOCIALS.facebook],
+    isLoading: false,
+    numberOfRoommates: 0,
+    roommatesNumberError: "",
+    hasRentedRoom: null,
+    pplLivingWith: "",
+    pplLivingWithError: ""
+}
 
-    const [currentLink, setCurrentLink] = useState<number>(1)
-    const [showLinks, setShowLinks] = useState<number[]>([SOCIALS.facebook])
-    const [isLoading, setIsLOading] = useState<boolean>(false)
-    const [roommates, setRoommates] = useState<number>(0)
-    const [roommateError, setRoommateError] = useState<string>("")
-    const [budgetPeriod, setBudgetPeriod] = useState<string>(BUDGET_PERIOS.at(2)!)
+export default function SecondStepRegistration({setState} : Props) {
+
+    const [allSatate, setAllStates] = useState<STATE_TYPE>(INITIAL_STATE)
 
     useEffect(() => {
-        if(!showLinks.includes(currentLink)){
-            setShowLinks((links) => [...links, currentLink])
+        if(!allSatate.showLinks.includes(allSatate.currentLink)){
+            setAllStates((allstates) => {
+                return {...allstates, showLinks: [...allSatate.showLinks, allSatate.currentLink]}
+            })
         }
-    }, [currentLink])
+        if(allSatate.pplLivingWithError || allSatate.currentRentPriceError){
+            window.scrollTo(0, 0)
+        }
+    }, [allSatate.currentLink, allSatate.pplLivingWithError, allSatate.currentRentPriceError])
 
     const form = useForm<z.infer<typeof  SecondStepSchema>>({
         resolver: zodResolver(SecondStepSchema),
@@ -41,7 +68,7 @@ export default function SecondStepRegistration() {
             instagram: undefined,
             telegram: undefined,
             budget: "",
-            description: ""
+            description: "",
         },
     })
 
@@ -51,107 +78,148 @@ export default function SecondStepRegistration() {
                 message: "provide at least one link"
             })
         }
-        if(!roommates){
-            setRoommateError("please select the number of roommates")
+        if(!allSatate.numberOfRoommates){
+            setAllStates((allstates) => {
+                return {...allstates, roommatesNumberError: "please select the number of roommates"}
+            })
+            return
+        }
+        if(allSatate.hasRentedRoom && !allSatate.pplLivingWith){
+            setAllStates((allstates) => {
+                return {...allstates, pplLivingWithError: "please provide this field"}
+            })
+            return
+        }
+        if(allSatate.pplLivingWith && !/^\d+$/.test(allSatate.pplLivingWith)){
+            setAllStates((allstates) => {
+                return {...allstates, pplLivingWithError: "Invalid input. enter a number"}
+            })
+            return
+        }   
+        if(allSatate.currentRentPrice && !/^\d+$/.test(allSatate.currentRentPrice)){
+            setAllStates((allstates) => {
+                return {...allstates, currentRentPriceError: "Invalid input. enter a number"}
+            })
+            return
         }
         const data = {
             socialLinks: [values.facebook, values.instagram, values.telegram].filter((value) => value !== undefined),
-            roommates: roommates ,
-            budget: `${values.budget} ${budgetPeriod}`,
+            numberOfRoommatesNeeded: allSatate.numberOfRoommates ,
+            hasRentedRoom: allSatate.hasRentedRoom === null ? false : allSatate.hasRentedRoom,
+            peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
+            currentRentPrice: allSatate.currentRentPrice ? allSatate.currentRentPrice : null,
+            budget: `${values.budget} birr/month`,
             description: values.description
         }
+        setAllStates((allstates) => {
+            return {...allstates, isLoading: true}
+        })
         // TODO: update the user's data
+        try{
+            // TODO: Update the state for the third registration step
+            setState((statedata) => {
+                return {...statedata, thirdStep: true}
+            })
+        }
+        catch(error: any){
+
+        }
+        finally{
+            setAllStates((allstates) => {
+                return {...allstates, isLoading: false}
+            })
+        }
     }
 
     function handleHideLink({link, type}: {link: number, type: "facebook" | "instagram" | "telegram"}){
-        const tempLinkList = showLinks.filter((value) => value !== link)
-        setShowLinks(tempLinkList)
+        const tempLinkList = allSatate.showLinks.filter((value) => value !== link)
+        setAllStates((allstates) => {
+            return {...allstates, showLinks: tempLinkList}
+        })
         form.setValue(type, undefined)
     }
 
 
     return (
         <section className="flex flex-col flex-1 items-start px-20 py-3">
-            <h3 className="text-xl text-primary"> Add your social media links </h3>
-            <p  className="text-sm text-secondary mt-3"> add at least one social media link </p>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                    {/* SOCIAL LINKS */}
-                    <div className="flex flex-col items-start gap-5 mt-7">
-                        {showLinks.includes(SOCIALS.facebook) && <FormField
-                        control={form.control}
-                        name="facebook"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <SocialLink image={Facebook} alt="facebook" isLoading={isLoading} fieldChange={field.onChange} />
-                                {/* <div className="flex items-center gap-6">
-                                    <button onClick={() => handleHideLink({link: SOCIALS.facebook, type: "facebook"})} className="pt-10">
-                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
-                                    </button>
-                                </div> */}
-                            </FormControl>
-                            <FormMessage/>
-                        </FormItem>
-                        )}
-                        />}
-                        {showLinks.includes(SOCIALS.instagram) && <FormField
-                        control={form.control}
-                        name="instagram"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="flex items-center gap-6">
-                                    <SocialLink image={Instagram} alt="instagram" isLoading={isLoading} fieldChange={field.onChange} />
-                                    <button onClick={() => handleHideLink({link: SOCIALS.instagram, type: "instagram"})} className="pt-10">
-                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
-                                    </button>
-                                </div>
-                            </FormControl>
-                            <FormMessage/>
-                        </FormItem>
-                        )}
-                        />}
-                        {showLinks.includes(SOCIALS.telegram) && <FormField
-                        control={form.control}
-                        name="telegram"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <div className="flex items-center gap-6">
-                                    <SocialLink image={Telegram} alt="telegram" isLoading={isLoading} fieldChange={field.onChange} />
-                                    <button onClick={() => handleHideLink({link: SOCIALS.telegram, type: "telegram"})} className="pt-10">
-                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
-                                    </button>
-                                </div>
-                            </FormControl>
-                            <FormMessage/>
-                        </FormItem>
-                        )}
-                        />}
-                        { !showLinks.includes(SOCIALS.telegram) && <button type="button" onClick={() => setCurrentLink((link) => link >= 3 ? 1 : link + 1)} className="mt-4 flex items-center gap-2 bg-button px-3.5 py-2 rounded-md text-sm text-black focus-visible:outline-none border-none font-semibold">
-                            <GoPlus className="w-5 h-5 text-black" />
-                            <p> Add more link </p>
-                        </button>}
+                    {/* USER HAS RENTED ROOM */}
+                    <div>
+                        <h3 className="text-lg text-primary"> Do you already have a rented room or house?
+                            <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
+                        </h3>
+                        <div className="flex items-center gap-3 mt-6">
+                            <Checkbox checked={allSatate.hasRentedRoom === true} onClick={() => setAllStates((allstates) => {
+                                return {...allstates, hasRentedRoom: allSatate.hasRentedRoom ? null : true}
+                            })} />
+                            <p> Yes </p>
+                        </div>
+                        {allSatate.hasRentedRoom && <div className="mt-5 pl-7">
+                            <div>
+                                <h3 className="text-base text-primary"> How many people live with you ? 
+                                <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
+                                </h3>
+                                <p className="text-sm text-secondary mt-2"> type 0 if you live alone </p>
+                                <input type="text" onChange={(e) => setAllStates((allstates) => {
+                                    return {...allstates, pplLivingWith: e.target.value}
+                                })} className="mt-3 w-[250px] px-3 py-2 bg-primary focus-visible:outline-none rounded-md text-sm text-black" />
+                                {allSatate.pplLivingWithError && <p className="text-sm text-red-500 mt-1"> {allSatate.pplLivingWithError} </p>}
+                            </div>
+                            <div className="mt-4">
+                                <h3 className="text-base text-primary"> what is the current rent you are paying ? 
+                                    <span> ( optional ) </span>
+                                </h3>
+                                <input type="text" onChange={(e) => setAllStates((allstates) => {
+                                    return {...allstates, currentRentPrice: e.target.value}
+                                })} className="mt-3 w-[250px] px-3 py-2 bg-primary focus-visible:outline-none rounded-md text-sm text-black" />
+                                {allSatate.currentRentPriceError && <p className="text-sm text-red-500 mt-1"> {allSatate.currentRentPriceError} </p>}
+                            </div>
+                        </div>
+                        }
+                        <div className={`flex items-center gap-3 mt-4`}>
+                            <Checkbox checked={allSatate.hasRentedRoom === false} onClick={() => setAllStates((allstates) => {
+                                return {...allstates, hasRentedRoom: allSatate.hasRentedRoom === false ? null : false}
+                            })} />
+                            <p> No </p>
+                        </div>
                     </div>
                     {/* NUMBER OF ROOMMATES NEEDED */}
                     <div className="mt-8">
-                        <h3 className="text-lg text-primary"> How many roommates do you need ? </h3>
-                        {roommateError && <p className="mt-3 text-sm text-red-500"> {roommateError} </p>}
+                        <h3 className="text-lg text-primary"> How many roommates do you need ?
+                        <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
+                        </h3>
+                        {allSatate.roommatesNumberError && <p className="mt-3 text-sm text-red-500"> {allSatate.roommatesNumberError} </p>}
                         <div className="flex items-center gap-4 mt-4">
-                            <Checkbox checked={roommates === 1} onClick={() => setRoommates(1)} />
+                            <Checkbox checked={allSatate.numberOfRoommates === 1} onClick={() => {
+                                setAllStates((allstates) => {
+                                    return {...allstates, numberOfRoommates: 1}
+                                })
+                            }} />
                             <p className="pt-0.5"> 1 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
-                            <Checkbox checked={roommates === 2} onClick={() => setRoommates(2)} />
+                            <Checkbox checked={allSatate.numberOfRoommates === 2} onClick={() => {
+                                setAllStates((allstates) => {
+                                    return {...allstates, numberOfRoommates: 2}
+                                })
+                            }} />
                             <p  className="pt-0.5"> 2 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
-                            <Checkbox checked={roommates === 3} onClick={() => setRoommates(3)} />
+                            <Checkbox checked={allSatate.numberOfRoommates === 3} onClick={() => {
+                                setAllStates((allstates) => {
+                                    return {...allstates, numberOfRoommates: 3}
+                                })
+                            }} />
                             <p  className="pt-0.5"> 3 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
-                            <Checkbox checked={roommates === 4} onClick={() => setRoommates(4)} />
+                            <Checkbox checked={allSatate.numberOfRoommates === 4} onClick={() => {
+                                setAllStates((allstates) => {
+                                    return {...allstates, numberOfRoommates: 4}
+                                })
+                            }} />
                             <p  className="pt-0.5"> 4 </p>
                         </div>
                     </div>
@@ -164,32 +232,85 @@ export default function SecondStepRegistration() {
                         <FormItem className="flex flex-col items-start gap-2">
                             <FormLabel className="text-lg text-primary"> 
                             What's your budget ?
+                            <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
                             </FormLabel>
+                            <p className="mt-2 text-sm text-secondary"> The Maximum rent you're willing to pay</p>
                             <FormControl className="mt-4">
-                                <div className="flex items-center justify-between max-sm:w-[250px] sm:w-[300px] md:w-[350px] text-black text-sm px-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white">
-                                    <input type="text" disabled={isLoading} {...field} placeholder="8,000" className="px-2 w-1/2 bg-inherit border-none focus-visible:outline-none" />
-                                    <Select onValueChange= {(value) => setBudgetPeriod(value)} defaultValue={budgetPeriod} >
-                                        <div>
-                                            <SelectTrigger className="bg-primary w-fit px-5 text-black text-base focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
-                                                <SelectValue placeholder={budgetPeriod}/>
-                                            </SelectTrigger>
-                                        </div>
-                                        <SelectContent>
-                                            {BUDGET_PERIOS.map((period) => {
-                                                return (
-                                                    <div key={period}>
-                                                        <SelectItem value={period}> {period} </SelectItem>
-                                                    </div>
-                                                )
-                                            })}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                                <input type="text" disabled={allSatate.isLoading} {...field} placeholder="8,000" className=" max-sm:w-[200px] sm:w-[250px] md:w-[300px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
                         )}
                         />
+                    </div>
+                    {/* SOCIAL LINKS */}
+                    <div className="flex flex-col items-start gap-5 mt-10">
+                        {allSatate.showLinks.includes(SOCIALS.facebook) && <FormField
+                        control={form.control}
+                        name="facebook"
+                        render={({ field }) => (
+                        <FormItem className="flex flex-col items-start gap-3">
+                            <FormLabel> 
+                                <div className="flex items-center gap-2">
+                                    <p className="text-xl text-primary"> Add your social media Profiles </p>
+                                    <span className="text-sm text-red-500"> * </span>
+                                </div>
+                                <p  className="text-sm text-secondary mt-3"> add at least one social media link </p>
+                            </FormLabel>
+                            <FormControl>
+                                <SocialLink image={Facebook} alt="facebook" isLoading={allSatate.isLoading} fieldChange={field.onChange} />
+                                {/* <div className="flex items-center gap-6">
+                                    <button onClick={() => handleHideLink({link: SOCIALS.facebook, type: "facebook"})} className="pt-10">
+                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
+                                    </button>
+                                </div> */}
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                        )}
+                        />}
+                        {allSatate.showLinks.includes(SOCIALS.instagram) && <FormField
+                        control={form.control}
+                        name="instagram"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="flex items-center gap-6">
+                                    <SocialLink image={Instagram} alt="instagram" isLoading={allSatate.isLoading} fieldChange={field.onChange} />
+                                    <button onClick={() => handleHideLink({link: SOCIALS.instagram, type: "instagram"})} className="pt-10">
+                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
+                                    </button>
+                                </div>
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                        )}
+                        />}
+                        {allSatate.showLinks.includes(SOCIALS.telegram) && <FormField
+                        control={form.control}
+                        name="telegram"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="flex items-center gap-6">
+                                    <SocialLink image={Telegram} alt="telegram" isLoading={allSatate.isLoading} fieldChange={field.onChange} />
+                                    <button onClick={() => handleHideLink({link: SOCIALS.telegram, type: "telegram"})} className="pt-10">
+                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
+                                    </button>
+                                </div>
+                            </FormControl>
+                            <FormMessage/>
+                        </FormItem>
+                        )}
+                        />}
+                        { !allSatate.showLinks.includes(SOCIALS.telegram) && <button type="button" onClick={() => {
+                            setAllStates((allstates) => {
+                                return {...allstates, currentLink: allSatate.currentLink >= 3 ? 1 : allSatate.currentLink + 1}
+                            })
+                        }} className="mt-4 flex items-center gap-2 bg-button px-3.5 py-2 rounded-md text-sm text-black focus-visible:outline-none border-none font-semibold">
+                            <GoPlus className="w-5 h-5 text-black" />
+                            <p> Add more link </p>
+                        </button>}
                     </div>
                     {/* USER PERSONALITY DESCRIPTION */}
                     <div className="mt-9">
@@ -210,7 +331,7 @@ export default function SecondStepRegistration() {
                         />
                     </div>
                     <button type="submit" className="mt-14 w-[200px] bg-button px-3.5 py-2 rounded-md text-base text-black focus-visible:outline-none border-none font-semibold">
-                    {isLoading ? (
+                    {allSatate.isLoading ? (
                         <ClipLoader
                         color="#ffffff"
                         loading={true}
@@ -219,7 +340,7 @@ export default function SecondStepRegistration() {
                         data-testid="loader"
                         className="mt-2"
                         />
-                    ) : "Submit" }
+                    ) : "Next" }
                     </button>
                 </form>
             </Form>

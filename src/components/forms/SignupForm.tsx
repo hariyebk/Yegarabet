@@ -12,14 +12,27 @@ import { GoEye, GoEyeClosed } from "react-icons/go"
 import { cities } from "@/constants"
 import SecondStepRegistration from "./SecondStepRegistration"
 
+export type STATE = {
+    firstStep: boolean,
+    secondStep: boolean,
+    thirdStep: boolean,
+    isLoading: boolean,
+    showPassword: boolean,
+    showConfirmPassword: boolean
+}
 
+const INITIAL_STATE : STATE = {
+    firstStep: false,
+    secondStep: true,
+    thirdStep: false,
+    isLoading: false,
+    showPassword: false,
+    showConfirmPassword: false
+}
 
 export default function SignupForm() {
 
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [secondStep, setSecondStep] = useState<boolean>(true)
-    const [showPassword, setShowPassword] = useState<boolean>(false)
-    const [confirmShowPassword, setConfirmShowPassword] = useState<boolean>(false)
+    const [state, setState] = useState<STATE>(INITIAL_STATE)
 
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),
@@ -50,7 +63,9 @@ export default function SignupForm() {
             password: values.password,
             phoneNumber: `0${values.phoneNumber}`
         }
-        setIsLoading(true)
+        setState((statevalue) => {
+            return {...statevalue, isLoading: true}
+        })
         try{
 
         }
@@ -58,7 +73,9 @@ export default function SignupForm() {
 
         }
         finally{
-            setIsLoading(false)
+            setState((statevalue) => {
+                return {...statevalue, isLoading: false}
+            })
         }
     }
 
@@ -69,7 +86,7 @@ export default function SignupForm() {
         </header>
         <div className="flex items-center justify-center">
         <div className="mt-7 w-[700px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20">
-            {!secondStep && <div className="flex flex-col flex-1 items-center">
+            {state.firstStep && <div className="flex flex-col flex-1 items-center">
                 <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Create your Account </h3>
                 <p className="text-sm text-secondary mt-3 mb-2"> Let's get you started. Please enter your details </p>
                 <Form {...form}>
@@ -86,7 +103,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -103,7 +120,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="balcha" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="balcha" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -122,7 +139,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="abebebaclha@gmail.com" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebebaclha@gmail.com" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -165,7 +182,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="date" disabled={isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px]  text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="date" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px]  text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -189,7 +206,7 @@ export default function SignupForm() {
                                             </div>
                                             <p className="text-sm"> +251 </p>
                                         </div>
-                                        <input type="text" disabled={isLoading} {...field} autoComplete="off" className="max-sm:w-[180px] sm:w-[230px] bg-inherit border-none focus-visible:outline-none" />
+                                        <input type="text" disabled={state.isLoading} {...field} autoComplete="off" className="max-sm:w-[180px] sm:w-[230px] bg-inherit border-none focus-visible:outline-none" />
                                     </div>
                                 </FormControl>
                                 <FormMessage/>
@@ -210,10 +227,14 @@ export default function SignupForm() {
                                 </FormLabel>
                                 <FormControl>
                                     <div className="flex items-center justify-between max-sm:w-[200px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3">
-                                        <input type={`${showPassword ? "text" : "password"}`} disabled={isLoading} {...field} placeholder="*********" autoComplete="new-password" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
-                                        {showPassword ? <button type="button" onClick={() => setShowPassword(false)}> 
+                                        <input type={`${state.showPassword ? "text" : "password"}`} disabled={state.isLoading} {...field} placeholder="*********" autoComplete="new-password" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
+                                        {state.showPassword ? <button type="button" onClick={() => setState((values) => {
+                                            return {...values, showPassword: false}
+                                        })}> 
                                             <GoEye className="w-4 h-4 text-black" />
-                                        </button> : <button type="button" onClick={() => setShowPassword(true)}> 
+                                        </button> : <button type="button" onClick={() => setState((values) => {
+                                            return {...values, showPassword: true}
+                                        })}> 
                                             <GoEyeClosed className="w-4 h-4 text-black" />
                                         </button>
                                         }
@@ -235,10 +256,14 @@ export default function SignupForm() {
                                 </FormLabel>
                                 <FormControl>
                                     <div className="flex items-center justify-between max-sm:w-[200px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3 text-black text-sm">
-                                        <input type={`${confirmShowPassword ? "text" : "password"}`} disabled={isLoading} {...field} placeholder="*********" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%]" />
-                                        {confirmShowPassword ? <button type="button" onClick={() => setConfirmShowPassword(false)}> 
+                                        <input type={`${state.showConfirmPassword ? "text" : "password"}`} disabled={state.isLoading} {...field} placeholder="*********" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%]" />
+                                        {state.showConfirmPassword ? <button type="button" onClick={() => setState((values) => {
+                                            return {...values, showConfirmPassword: false}
+                                        })}> 
                                             <GoEye className="w-4 h-4 text-black" />
-                                        </button> : <button type="button" onClick={() => setConfirmShowPassword(true)}> 
+                                        </button> : <button type="button" onClick={() => setState((values) => {
+                                            return {...values, showConfirmPassword: true}
+                                        })}> 
                                             <GoEyeClosed className="w-4 h-4 text-black" />
                                         </button>
                                         }
@@ -290,7 +315,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="Engineer" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="Engineer" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem> 
@@ -303,7 +328,7 @@ export default function SignupForm() {
                     </form>
                 </Form>
             </div>}
-            {secondStep && <SecondStepRegistration />}
+            {state.secondStep && <SecondStepRegistration setState={setState} />}
         </div>
         </div>
     </section>
