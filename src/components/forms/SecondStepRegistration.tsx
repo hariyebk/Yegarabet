@@ -118,7 +118,7 @@ export default function SecondStepRegistration({setState} : Props) {
         try{
             // TODO: Update the state for the third registration step
             setState((statedata) => {
-                return {...statedata, thirdStep: true}
+                return {...statedata, secondStep: false, thirdStep: true}
             })
         }
         catch(error: any){
@@ -259,11 +259,6 @@ export default function SecondStepRegistration({setState} : Props) {
                             </FormLabel>
                             <FormControl>
                                 <SocialLink image={Facebook} alt="facebook" isLoading={allSatate.isLoading} fieldChange={field.onChange} />
-                                {/* <div className="flex items-center gap-6">
-                                    <button onClick={() => handleHideLink({link: SOCIALS.facebook, type: "facebook"})} className="pt-10">
-                                        <IoCloseCircleOutline className="w-7 h-7 text-red-500" />
-                                    </button>
-                                </div> */}
                             </FormControl>
                             <FormMessage/>
                         </FormItem>
@@ -321,6 +316,7 @@ export default function SecondStepRegistration({setState} : Props) {
                             <FormItem className="flex flex-col justify-start gap-2">
                                 <FormLabel className="text-lg text-primary">
                                     How do you describe yourself ?
+                                    <span className="text-sm text-red-500 ml-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
                                     <textarea {...field} className="max-sm:w-[250px] sm:w-[350px] md:w-[400px] max-lg:h-[100px] lg:h-[120px] bg-primary borde rounded-md px-5 py-4 focus-visible:outline-none text-sm text-black" />

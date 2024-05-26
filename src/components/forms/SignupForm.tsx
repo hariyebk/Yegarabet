@@ -11,6 +11,7 @@ import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from ".
 import { GoEye, GoEyeClosed } from "react-icons/go"
 import { cities } from "@/constants"
 import SecondStepRegistration from "./SecondStepRegistration"
+import Preferences from "./Preferences"
 
 export type STATE = {
     firstStep: boolean,
@@ -22,8 +23,8 @@ export type STATE = {
 }
 
 const INITIAL_STATE : STATE = {
-    firstStep: false,
-    secondStep: true,
+    firstStep: true,
+    secondStep: false,
     thirdStep: false,
     isLoading: false,
     showPassword: false,
@@ -67,7 +68,9 @@ export default function SignupForm() {
             return {...statevalue, isLoading: true}
         })
         try{
-
+            setState((statevalues) => {
+                return {...statevalues, firstStep: false, secondStep: true}
+            })
         }
         catch(error: any){
 
@@ -329,6 +332,7 @@ export default function SignupForm() {
                 </Form>
             </div>}
             {state.secondStep && <SecondStepRegistration setState={setState} />}
+            {state.thirdStep && <Preferences />}
         </div>
         </div>
     </section>

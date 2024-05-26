@@ -70,3 +70,69 @@ export const SecondStepSchema = z.object({
         path: ["telegram"]
     }
 )
+
+export const QuestionsSchema = z.object({
+    gender: z.object({question: z.string(), answer: z.string()}),
+    guest: z.object({question: z.string(), answer: z.string()}),
+    pets: z.object({question: z.string(), answer: z.string()}),
+    drugs: z.object({question: z.string(), answer: z.string()}),
+    occupation: z.object({question: z.string(), answer: z.string()}),
+    cleanlines: z.object({question: z.string(), answer: z.string()}),
+    lateNight: z.object({question: z.string(), answer: z.string()})
+}).refine(
+    (value) => {
+        return Boolean(value.gender.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["gender"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.guest.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["guest"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.pets.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["pets"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.drugs.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["drugs"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.occupation.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["occupation"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.cleanlines.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["cleanlines"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.lateNight.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["lateNight"]
+    }
+)
