@@ -21,7 +21,7 @@ export default function Question({field, fieldChange, answers}: Props) {
                             <Checkbox checked={field.answer === answer} onClick={() => fieldChange({
                                 question: field.question,
                                 answer: field.answer === answer ? "" : answer
-                            })} />
+                            })} className="focus-visible:outline-none" />
                             <p> {answer} </p>
                         </div>
                     )

@@ -5,7 +5,7 @@ import Question from "@/components/small-peices/Question"
 import { QuestionsSchema } from "@/lib/validation"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import ClipLoader from "react-spinners/ClipLoader"
 
@@ -14,11 +14,19 @@ export default function Preferences() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+    
     const form = useForm<z.infer<typeof QuestionsSchema>>({
         resolver: zodResolver(QuestionsSchema),
         defaultValues: {
             gender: {
                 question: "Preferred roommate gender ?",
+                answer: ""
+            },
+            age: {
+                question: "Preferred roommate age ?",
                 answer: ""
             },
             guest: {
@@ -66,6 +74,19 @@ export default function Preferences() {
                     <FormItem className="flex flex-col items-start gap-2">
                         <FormControl>
                             <Question field={field.value} fieldChange={field.onChange} answers={["Male", "Female", "It doesn't matter"]}  />
+                        </FormControl>
+                        <FormMessage/>
+                    </FormItem>
+                    )}
+                    />
+                    {/* AGE PREFERENCE */}
+                    <FormField
+                    control={form.control}
+                    name="age"
+                    render={({ field }) => (
+                    <FormItem className="flex flex-col items-start gap-2">
+                        <FormControl>
+                            <Question field={field.value} fieldChange={field.onChange} answers={["18-22", "23-27", "28-32", "33-37", "37+"]}  />
                         </FormControl>
                         <FormMessage/>
                     </FormItem>

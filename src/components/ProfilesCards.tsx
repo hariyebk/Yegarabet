@@ -64,9 +64,9 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
                             )
                         })}
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-500 rounded-full border-none" />
-                        <p className="text-sm text-main font-palanquin"> Available </p>
+                    <div className="w-fit px-2 py-1.5 bg-inherit border border-red-500 text-sm text-primary rounded-md">
+                        needs a room
+                        {/* rented a room */}
                     </div>
                     {/* <button className="text-sm bg-main text-white px-4 py-1 rounded-md">
                         Match

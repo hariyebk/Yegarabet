@@ -51,6 +51,11 @@ export default function SecondStepRegistration({setState} : Props) {
     const [allSatate, setAllStates] = useState<STATE_TYPE>(INITIAL_STATE)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])    
+
+    useEffect(() => {
+
         if(!allSatate.showLinks.includes(allSatate.currentLink)){
             setAllStates((allstates) => {
                 return {...allstates, showLinks: [...allSatate.showLinks, allSatate.currentLink]}
@@ -111,24 +116,26 @@ export default function SecondStepRegistration({setState} : Props) {
             budget: `${values.budget} birr/month`,
             description: values.description
         }
-        setAllStates((allstates) => {
-            return {...allstates, isLoading: true}
-        })
-        // TODO: update the user's data
-        try{
-            // TODO: Update the state for the third registration step
-            setState((statedata) => {
-                return {...statedata, secondStep: false, thirdStep: true}
-            })
-        }
-        catch(error: any){
 
-        }
-        finally{
-            setAllStates((allstates) => {
-                return {...allstates, isLoading: false}
-            })
-        }
+        console.log(data)
+
+        setState((statedata) => {
+            return {...statedata, secondStep: false, thirdStep: true}
+        })
+        // setAllStates((allstates) => {
+        //     return {...allstates, isLoading: true}
+        // })
+        // // TODO: update the user's data
+        // try{
+        // }
+        // catch(error: any){
+
+        // }
+        // finally{
+        //     setAllStates((allstates) => {
+        //         return {...allstates, isLoading: false}
+        //     })
+        // }
     }
 
     function handleHideLink({link, type}: {link: number, type: "facebook" | "instagram" | "telegram"}){
@@ -152,7 +159,7 @@ export default function SecondStepRegistration({setState} : Props) {
                         <div className="flex items-center gap-3 mt-6">
                             <Checkbox checked={allSatate.hasRentedRoom === true} onClick={() => setAllStates((allstates) => {
                                 return {...allstates, hasRentedRoom: allSatate.hasRentedRoom ? null : true}
-                            })} />
+                            })} className="focus-visible:outline-none" />
                             <p> Yes </p>
                         </div>
                         {allSatate.hasRentedRoom && <div className="mt-5 pl-7">
@@ -180,7 +187,7 @@ export default function SecondStepRegistration({setState} : Props) {
                         <div className={`flex items-center gap-3 mt-4`}>
                             <Checkbox checked={allSatate.hasRentedRoom === false} onClick={() => setAllStates((allstates) => {
                                 return {...allstates, hasRentedRoom: allSatate.hasRentedRoom === false ? null : false}
-                            })} />
+                            })} className="focus-visible:outline-none" />
                             <p> No </p>
                         </div>
                     </div>
@@ -195,7 +202,7 @@ export default function SecondStepRegistration({setState} : Props) {
                                 setAllStates((allstates) => {
                                     return {...allstates, numberOfRoommates: 1}
                                 })
-                            }} />
+                            }} className="focus-visible:outline-none" />
                             <p className="pt-0.5"> 1 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
@@ -203,7 +210,7 @@ export default function SecondStepRegistration({setState} : Props) {
                                 setAllStates((allstates) => {
                                     return {...allstates, numberOfRoommates: 2}
                                 })
-                            }} />
+                            }} className="focus-visible:outline-none" />
                             <p  className="pt-0.5"> 2 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
@@ -211,7 +218,7 @@ export default function SecondStepRegistration({setState} : Props) {
                                 setAllStates((allstates) => {
                                     return {...allstates, numberOfRoommates: 3}
                                 })
-                            }} />
+                            }} className="focus-visible:outline-none" />
                             <p  className="pt-0.5"> 3 </p>
                         </div>
                         <div className="flex items-center gap-4 mt-3">
@@ -219,7 +226,7 @@ export default function SecondStepRegistration({setState} : Props) {
                                 setAllStates((allstates) => {
                                     return {...allstates, numberOfRoommates: 4}
                                 })
-                            }} />
+                            }} className="focus-visible:outline-none" />
                             <p  className="pt-0.5"> 4 </p>
                         </div>
                     </div>

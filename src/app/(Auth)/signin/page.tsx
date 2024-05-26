@@ -62,7 +62,7 @@ export default function Signin() {
     return (
         <section className="min-h-screen mt-28 mb-14">
             <div className="flex items-center justify-center container">
-            <div className="mt-7 w-[630px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 pl-10">
+            <div className="mt-7 w-[630px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 pl-8">
                 <div className="flex flex-col flex-1 items-center">
                     <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Sign in to your Account </h3>
                     <p className="text-sm text-secondary mt-3 mb-2"> Welcome back. Please enter your details </p>
@@ -128,15 +128,14 @@ export default function Signin() {
                             <p className="text-primary text-base"> or countinue with </p>
                             <hr className="border border-t-gray-400 w-[100px] max-md:w-[60px]" />
                         </div>
-                        <div className="mt-10 flex items-start justify-center gap-20">
+                        {/* <div className="mt-10 flex items-start justify-center gap-20">
                             <button onClick={() => handleSocialLogin("github")} disabled={isLoading} className="px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
-                                {/* <Image src={Linkedin} alt="linkedin-logo" width={25} height={20} className="" /> */}
                                 <BsLinkedin className="w-6 h-6 text-blue-500" />
                             </button>
                             <button onClick={() => handleSocialLogin("google")} disabled={isLoading} className="px-10 max-md:px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
                                 <FcGoogle className="w-6 h-6" />
                             </button>
-                        </div>
+                        </div> */}
                         <div className="mt-10 flex items-center justify-center gap-2 text-base text-primary">
                             <p> Don't have an account ? </p>
                             <Link href="/signup" className="text-button font-semibold"> Sign Up </Link>

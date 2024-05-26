@@ -7,13 +7,13 @@ export const SiginFormSchema = z.object({
 
 export const SignupFormSchema = z.object({
     firstName: z.string().min(1, {message: "first name is required"}).max(10, {message: "first name is too long"}),
-    lastName: z.string().min(1, {message: "first name is required"}).max(10, {message: "first name is too long"}),
+    lastName: z.string().min(1, {message: "first name is required"}).max(10, {message: "last name is too long"}),
     email: z.string().min(1, {message: "email is required"}).email(),
     gender: z.string().min(1, {message: "you didn't select your gender"}),
     birthDate: z.string().min(1, {message: "birth date is required"}),
     phoneNumber: z.string().min(9, {message: "invalid phone number"}).max(9, {message: "remove 0 at the start"}).regex(/^[0-9]+$/),
     city: z.string().min(1, {message: "city is required"}).max(10, {message: "city is too long"}),
-    profession: z.string().min(1, {message: "profession is required"}).max(14, {message: "professtion is too long"}),
+    profession: z.string().min(1, {message: "profession is required"}).max(25, {message: "professtion is too long"}),
     password: z.string().min(1, {message: "password is required"}),
     passwordConfirm: z.string().min(1, {message: "please re-enter your password here"}),
 }).refine((value) => {
@@ -73,6 +73,7 @@ export const SecondStepSchema = z.object({
 
 export const QuestionsSchema = z.object({
     gender: z.object({question: z.string(), answer: z.string()}),
+    age: z.object({question: z.string(), answer: z.string()}),
     guest: z.object({question: z.string(), answer: z.string()}),
     pets: z.object({question: z.string(), answer: z.string()}),
     drugs: z.object({question: z.string(), answer: z.string()}),
@@ -86,6 +87,14 @@ export const QuestionsSchema = z.object({
     {
         message: "No answer provided",
         path: ["gender"]
+    }
+).refine(
+    (value) => {
+        return Boolean(value.age.answer)
+    },
+    {
+        message: "No answer provided",
+        path: ["age"]
     }
 ).refine(
     (value) => {

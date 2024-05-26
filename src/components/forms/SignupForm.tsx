@@ -64,22 +64,25 @@ export default function SignupForm() {
             password: values.password,
             phoneNumber: `0${values.phoneNumber}`
         }
-        setState((statevalue) => {
-            return {...statevalue, isLoading: true}
-        })
-        try{
-            setState((statevalues) => {
-                return {...statevalues, firstStep: false, secondStep: true}
-            })
-        }
-        catch(error: any){
+        
+        console.log(data)
 
-        }
-        finally{
-            setState((statevalue) => {
-                return {...statevalue, isLoading: false}
-            })
-        }
+        setState((statevalues) => {
+            return {...statevalues, firstStep: false, secondStep: true}
+        })
+        // setState((statevalue) => {
+        //     return {...statevalue, isLoading: true}
+        // })
+        // try{
+        // }
+        // catch(error: any){
+
+        // }
+        // finally{
+        //     setState((statevalue) => {
+        //         return {...statevalue, isLoading: false}
+        //     })
+        // }
     }
 
     return (
