@@ -16,9 +16,11 @@ export default async function page({searchParams} : Props){
     return (
         <main className='min-h-screen mt-24 mb-40 mx-5'>
             {/* SECTION FOR FILTERS */}
-            <RoommateFilter />
+            <div className="pb-20">
+                <RoommateFilter />
+            </div>
             {/* FAKE DATA */}
-            <section className="w-full flex flex-wrap items-center justify-start gap-6 mt-10">
+            <section className="w-full flex flex-wrap items-center justify-start gap-6">
                 {Array.from({length: 20}, (index, i) => {
                     return (
                         <ProfilesCards key={i} firstName="Harun" socials={[{
@@ -33,7 +35,7 @@ export default async function page({searchParams} : Props){
                             type: "linkedln",
                             link: "https://t.me/haribk",
                         }
-                    ]} image={hari} budget="10,000 birr / m" age={23} sex="Male" profession="Software developer" numberofRoommates={1} residenceLocation="Dire Dawa"/>
+                    ]} image={hari} budget="10,000 birr / m" age={23} sex="Male" profession="Software developer" numberofRoommates={1} residenceLocation="Dire Dawa" i={i}/>
                     )
                 })}
             </section>

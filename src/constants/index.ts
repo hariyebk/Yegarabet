@@ -8,6 +8,7 @@ import harar from "/public/cities/harar.jpg"
 import arbaminch from "/public/cities/arbaminch.jpg"
 import gonder from "/public/cities/gonder.jpg"
 import jimma from "/public/cities/jimma.jpg"
+import { string } from "zod"
 
 
 export const Nav_Links = [
@@ -238,3 +239,30 @@ export const preferences = [
         ]
     }
 ]
+export enum QUERY_PARAMS {
+    name = "name",
+    gender = "gender",
+    city = "city",
+    min = "min-age",
+    max = "max-age",
+    room = "room",
+    sort = "sort"
+
+}
+export const GENDER_VALUES = [
+    {
+        value: "all",
+        label: "All"
+    },
+    {
+        value: "male",
+        label: "Male"
+    },
+    {
+        value: "female",
+        label: "Female"
+    }
+]
+
+export const ASCENDING = "ascending"
+export const DESCENDING = "descending "

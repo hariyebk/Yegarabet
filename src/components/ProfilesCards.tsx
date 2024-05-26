@@ -7,6 +7,7 @@ import Linkedln from "/public/linkedin.svg"
 import Facebook from  "/public/facebook.svg"
 import Snapchat from "/public/snapchat.svg"
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type LOGOS = {
     instagram: StaticImageData,
@@ -36,10 +37,12 @@ interface ProfileCardProps {
     sex: string,
     profession: string,
     numberofRoommates: number,
-    residenceLocation: string
+    residenceLocation: string,
+    i: number
 }
+// TODO: REMOVE THE INDEX , ITS JUST FOR TESTING
 
-export default function ProfilesCards({firstName, socials, budget, image, age, sex, profession, numberofRoommates, residenceLocation} : ProfileCardProps) {
+export default function ProfilesCards({firstName, socials, budget, image, age, sex, profession, numberofRoommates, residenceLocation, i} : ProfileCardProps) {
 
     const {push} = useRouter()
 
@@ -51,7 +54,8 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
     return (
         <section className="w-[305px] h-[300px] border border-slate-700 rounded-[7px] bg-card p-3 mt-2">
             <div className="flex items-center justify-between">
-                <h3 className="text-base text-primary font-semibold "> {firstName} </h3>
+                {/* TODO: This route hasn't been implemented yet */}
+                <Link href="/profile/harun" className="text-base text-primary font-semibold "> {firstName} </Link>
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                         {socials.length === 0 ? null : socials.map((social, index) => {
@@ -64,9 +68,9 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
                             )
                         })}
                     </div>
-                    <div className="w-fit px-2 py-1.5 bg-inherit border border-red-500 text-sm text-primary rounded-md">
-                        needs a room
-                        {/* rented a room */}
+                    {/* TODO: DISPLAY THE STATUS BASED ON REAL DATA */}
+                    <div className={`w-fit px-2 py-1.5 bg-inherit border ${(i + 1) % 2 === 0 ? "border-green-500" : "border-red-500"} text-sm text-primary rounded-md`}>
+                        { (i + 1) % 2 === 0 ? " has a room" : "needs a room" }
                     </div>
                     {/* <button className="text-sm bg-main text-white px-4 py-1 rounded-md">
                         Match
@@ -92,7 +96,7 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
                 </div>
             </div>
             <hr className="border border-slate-700 opacity-80 mt-2.5" />
-            <div className="flex items-center justify-between mt-5">
+            <div className="flex items-center justify-between mt-3.5">
                 <button className="bg-button w-[130px] p-2.5 rounded-md text-black text-sm font-semibold">
                     View preference
                 </button>
