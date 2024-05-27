@@ -1,6 +1,7 @@
 import ProfilesCards from "@/components/ProfilesCards";
 import hari from "/public/hari.jpg"
 import RoommateFilter from "@/components/RoommateFilter";
+import Pagination from "@/components/small-peices/Pagination";
 
 interface Props {
     searchParams: {
@@ -39,6 +40,12 @@ export default async function page({searchParams} : Props){
                     )
                 })}
             </section>
+            <div className="mt-24 flex items-start justify-between">
+                <div className="w-[250px]">
+                    <p className="text-lg text-primary"> Total number of results  {20}</p>
+                </div>
+                <Pagination TotalResults={60} />
+            </div>
         </main>
     )
 }

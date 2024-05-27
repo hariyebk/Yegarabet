@@ -292,6 +292,5 @@ export default function RoommateFilter() {
                 </SelectContent>
             </Select>
         </section>
-
     )
 }

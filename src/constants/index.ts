@@ -246,8 +246,8 @@ export enum QUERY_PARAMS {
     min = "min-age",
     max = "max-age",
     room = "room",
-    sort = "sort"
-
+    sort = "sort",
+    page = "page"
 }
 export const GENDER_VALUES = [
     {
@@ -263,6 +263,6 @@ export const GENDER_VALUES = [
         label: "Female"
     }
 ]
-
 export const ASCENDING = "ascending"
 export const DESCENDING = "descending "
+export const PAGE_SIZE = 20
