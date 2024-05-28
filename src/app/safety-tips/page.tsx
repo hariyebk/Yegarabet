@@ -10,10 +10,12 @@ export default async function page() {
                     return (
                         <li key={index} className="mt-5 max-w-[900px]">
                             <h4 className="text-lg text-primary"> {tip.title} </h4>
-                            <p className="text-base text-primary leading-8 font-palanquin mt-3 ml-4"> {tip.description} </p>
+                            <p className="text-base text-primary leading-8 mt-3 ml-4"> {tip.description} </p>
                         </li>
                     )
                 })}
+                <p className="text-base mt-10 leading-7 text-primary"> By following these tips, you can help ensure a safe and positive experience when living with a roommate. Remember to always prioritize your safety and well-being, and don't hesitate to seek help if you need it.
+                </p>
             </ul>
         </main>
     )
