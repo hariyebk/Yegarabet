@@ -8,6 +8,9 @@ import Facebook from  "/public/facebook.svg"
 import Snapchat from "/public/snapchat.svg"
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useState } from "react";
+import ViewPreferencesOfUser from "./ViewPreferencesOfUser";
+import { preferences } from "@/constants";
 
 type LOGOS = {
     instagram: StaticImageData,
@@ -38,24 +41,37 @@ interface ProfileCardProps {
     profession: string,
     numberofRoommates: number,
     residenceLocation: string,
-    i: number
+    i: number,
+    details?: boolean
 }
 // TODO: REMOVE THE INDEX , ITS JUST FOR TESTING
 
-export default function ProfilesCards({firstName, socials, budget, image, age, sex, profession, numberofRoommates, residenceLocation, i} : ProfileCardProps) {
+export default function ProfilesCards({firstName, socials, budget, image, age, sex, profession, numberofRoommates, residenceLocation, i, details=false} : ProfileCardProps) {
 
     const {push} = useRouter()
+    const [viewProfile, setViewProfile ] = useState<boolean>(false)
 
     function handleSocialClick(socialLink: string){
         // TODO: Check if the user is authenticated first
 
     }
 
+    function handleViewPreferences(){
+        //TODO: Check if the user is Authenticated 
+        const isAuth = true
+        if(isAuth){
+            setViewProfile(true)
+        }
+        else{
+            push("/signin")
+        }
+    }
+
     return (
-        <section className="w-[305px] h-[300px] border border-slate-700 rounded-[7px] bg-card p-3 mt-2">
+        <section className={`${details ? "w-full" : "w-[305px]"} h-auto border border-slate-700 rounded-[7px] bg-card px-3 pt-3 pb-4 mt-2`}>
             <div className="flex items-center justify-between">
                 {/* TODO: This route hasn't been implemented yet */}
-                <Link href="/profile/harun" className="text-base text-primary font-semibold "> {firstName} </Link>
+                <button className="text-base text-primary font-semibold "> {firstName} </button>
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                         {socials.length === 0 ? null : socials.map((social, index) => {
@@ -68,7 +84,6 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
                             )
                         })}
                     </div>
-                    {/* TODO: DISPLAY THE STATUS BASED ON REAL DATA */}
                     <div className={`w-fit px-2 py-1.5 bg-inherit border ${(i + 1) % 2 === 0 ? "border-green-500" : "border-red-500"} text-sm text-primary rounded-md`}>
                         { (i + 1) % 2 === 0 ? " has a room" : "needs a room" }
                     </div>
@@ -83,24 +98,31 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
             </span>
             <div className="mt-3 flex items-start gap-5">
                 <Image src={image} alt="user-image" width={120} height={90} className="rounded-md" />
-                <div className="flex flex-col justify-start text-sm">
+                <div className={`flex flex-col justify-start ${details ? "gap-2" : "gap-0"} text-sm`}>
                     <p> {age} Yr old </p>
                     <p className="mt-1"> {sex} </p>
                     <p className="mt-1 truncate"> {profession} </p>
-                    <span className="flex items-center">    
-                        <p> </p>
-
-                    </span>
-                    <p className="mt-2"> I need {`${numberofRoommates === 1 ? `${numberofRoommates} roommate` : `${numberofRoommates} roommates`}`} in </p>
-                    <h3 className="text-base text-primary truncate font-semibold mt-2"> {residenceLocation} </h3>
+                    <div className={`${details ? "flex items-center gap-2" : "flex flex-col justify-start gap-2"}`}>
+                        <p className="mt-2"> I need {`${numberofRoommates === 1 ? `${numberofRoommates} roommate` : `${numberofRoommates} roommates`}`} in </p>
+                        <h3 className={`${details ? "text-sm mt-2" : "text-base"} text-primary truncate font-semibold`}> {residenceLocation} </h3>
+                    </div>
                 </div>
             </div>
-            <hr className="border border-slate-700 opacity-80 mt-2.5" />
-            <div className="flex items-center justify-between mt-3.5">
-                <button className="bg-button w-[130px] p-2.5 rounded-md text-black text-sm font-semibold">
-                    View preference
-                </button>
-            </div>
+            {!details && <div>
+                <hr className="border border-slate-700 opacity-80 mt-2.5" />
+                <div className="flex items-center justify-between mt-3.5">
+                    <button onClick={handleViewPreferences} className="bg-button w-[130px] p-2.5 rounded-md text-black text-sm font-semibold focus-visible:outline-none">
+                        View preference
+                    </button>
+                </div>
+                <div>
+                    {viewProfile && <div className="fixed inset-0 top-0 mt-3.5 z-20 overflow-y-hidden">
+                        <ViewPreferencesOfUser setViewProfile={setViewProfile} preferences={preferences} />
+                    </div>
+                    }
+                </div>
+            </div> 
+            }
         </section>
     )
 }

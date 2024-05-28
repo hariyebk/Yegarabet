@@ -60,9 +60,9 @@ export default function Signin() {
 
 
     return (
-        <section className="min-h-screen mt-28 mb-14">
+        <section className="min-h-screen mt-28 mb-20">
             <div className="flex items-center justify-center container">
-            <div className="mt-7 w-[630px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 pl-8">
+            <div className="mt-7 w-[630px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 pl-5">
                 <div className="flex flex-col flex-1 items-center">
                     <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Sign in to your Account </h3>
                     <p className="text-sm text-secondary mt-3 mb-2"> Welcome back. Please enter your details </p>

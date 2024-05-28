@@ -81,4 +81,20 @@
     .createAccountFormContainer {
       @apply flex flex-wrap items-start gap-14
     }
+    .custom-scrollbar {
+      height: 80vh;
+      overflow: auto;
+      cursor: auto;
+    }   
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 15px;
+        cursor: pointer;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #dfdfd7;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #9999a0;
+        height: 10%
+    }
   }

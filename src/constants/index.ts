@@ -179,59 +179,31 @@ export const BUDGET_PERIOS = [
 export const preferences = [
     {
         question: "Preferred roommate gender ?",
-        answers: [
-            "Male",
-            "Female", 
-            "It doesn't matter"
-        ]
+        answer: "Male"
     },
     {
         question: "Would it okay if your roommate brings someone home ?",
-        answers: [
-            "Yes",
-            "No", 
-            "Depends on the situation"
-        ]
+        answer: "Depends on the situation"
     },
     {
         question: "Are you comfortable with your roommate having pets ?",
-        answers: [
-            "Yes",
-            "No", 
-            "Depends on the pet"
-        ]
+        answer: "No"
     },
     {
         question: "Are you okay with a roommate who smokes or drinks ?",
-        answers: [
-            "Yes",
-            "No", 
-            "Occasional use is okay"
-        ]
+        answer: "No"
     },
     {
         question: "What type of roommate do you prefer ?",
-        answers: [
-            "Student",
-            "Worker", 
-            "It doesn't matter"
-        ]
+        answer: "Student"
     },
     {
         question: "How important is cleanliness to you in a roommate ?",
-        answers: [
-            "Very important",
-            "Somewhat important", 
-            "Not very important"
-        ]
+        answer: "Very important"
     },
     {
         question: "Is it okay if your roommate comes home late at night ?",
-        answers: [
-            "Yes",
-            "No", 
-            "Occasional is okay"
-        ]
+        answer: "Yes"
     }
 ]
 export enum QUERY_PARAMS {
