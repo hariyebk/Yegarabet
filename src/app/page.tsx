@@ -9,7 +9,9 @@ export default function Home() {
     <main className="min-h-screen mt-40 mb-28 mx-20">
       <Hero />
       <Cities />
+      <div id="how-it-works"/>
       <Process />
+      <div id="contact-us"/>
       <Contactus />
     </main>
   );

@@ -41,8 +41,8 @@ export default async function page({searchParams} : Props){
                 })}
             </section>
             <div className="mt-24 flex items-start justify-between">
-                <div className="w-[250px]">
-                    <p className="text-lg text-primary"> Total number of results  {20}</p>
+                <div className="w-[300px]">
+                    <p className="text-lg text-primary"> Total number of results &nbsp;  {20}</p>
                 </div>
                 <Pagination TotalResults={60} />
             </div>

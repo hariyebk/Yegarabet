@@ -4,7 +4,6 @@ export const PUBLIC_ROUTES = [
     "/",
     "/signin",
     "/signup",
-    "/about",
     "/find-roommates",
     "/how-it-works",
     "/safety-tips",

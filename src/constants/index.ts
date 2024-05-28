@@ -8,7 +8,6 @@ import harar from "/public/cities/harar.jpg"
 import arbaminch from "/public/cities/arbaminch.jpg"
 import gonder from "/public/cities/gonder.jpg"
 import jimma from "/public/cities/jimma.jpg"
-import { string } from "zod"
 
 
 export const Nav_Links = [
@@ -18,16 +17,12 @@ export const Nav_Links = [
     },
     {
         label: "How it works",
-        path: "/how-it-works"
+        path: "/#how-it-works"
     },
     {
         label: "Safety tips",
         path: "/safety-tips"
     },
-    {
-        label: "About us",
-        path: "/about"
-    }
 ]
 export const Footer_Links = [
     {
@@ -60,7 +55,7 @@ export const Footer_Links = [
             },
             {
                 label: "Contact us",
-                path: "#contact-us"
+                path: "/#contact-us"
             }
         ]
     },
@@ -77,7 +72,7 @@ export const Footer_Links = [
             },
             {
                 label: "How it works",
-                path: "/how-it-works"
+                path: "/#how-it-works"
             }
         ]
     }
@@ -261,6 +256,32 @@ export const GENDER_VALUES = [
     {
         value: "female",
         label: "Female"
+    }
+]
+export const SAFETY_TIPS = [
+    {
+        title: "Do your research",
+        description: "Look into your potential roommate's social media profiles and online presence to validate their looks and the information they provided on this platform."
+    },
+    {
+        title: "Respect each other's differences",
+        description: "You need to respect each other's differences, values, and cultures. Understand that you may have different backgrounds, beliefs, and lifestyles, and be open to learning from each other."
+    },
+    {
+        title: "Be honest and open",
+        description: "Be upfront about your expectations, boundaries, and concerns with your potential roommate. This will help you both get on the same page and avoid any misunderstandings."
+    },
+    {
+        title: "Plan for the unexpected",
+        description: "Have a plan in place in case you and your roommate no longer want to live together. This can include discussing who will stay in the room and who has to leave."
+    },
+    {
+        title: "use written agreements",
+        description: "Create a roommate agreement that outlines the terms of your living arrangement, including rent, utilities, and responsibilities. This will help prevent conflicts and provide a clear understanding of expectations."
+    },
+    {
+        title: "Respect each other's privacy",
+        description: "Remember that you're living with a stranger, so respect each other's personal space and belongings. Be willing to compromise and adapt to changing circumstances."
     }
 ]
 export const ASCENDING = "ascending"

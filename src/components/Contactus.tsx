@@ -7,7 +7,7 @@ export default function Contactus() {
         <main className="mt-28">
             <div className="flex items-start justify-between">
                 <Image src={support} width={550} height={250} alt="contact-us image" className="object-contain" />
-                <div id="contact-us" className="flex flex-col items-end mr-16">
+                <div className="flex flex-col items-end mr-16">
                     <h2 className="text-2xl text-primary font-bold mr-8"> You have a question ? we got you </h2>
                     <form className="mt-10">
                         <div>
