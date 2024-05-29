@@ -10,7 +10,7 @@ export default async function page() {
                     return (
                         <li key={index} className="mt-5 max-w-[800px]">
                             <h4 className="max-sm:text-base sm:text-lg text-primary"> {tip.title} </h4>
-                            <p className="max-sm:text-sm sm:text-base text-primary leading-9 mt-3 ml-4"> {tip.description} </p>
+                        <p className="max-sm:text-sm sm:text-base text-primary leading-9 mt-3 ml-4"> {tip.description} </p>
                         </li>
                     )
                 })}
