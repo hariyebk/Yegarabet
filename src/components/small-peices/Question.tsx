@@ -12,7 +12,7 @@ export default function Question({field, fieldChange, answers}: Props) {
     return (
         <section>
             <div className="mt-8">
-                <h3 className="text-lg text-primary flex flex-wrap leading-6"> {field.question}
+                <h3 className="max-md:text-base md:text-lg text-primary flex flex-wrap leading-7"> {field.question}
                 <span className="text-sm text-red-500 ml-2"> * </span>
                 </h3>
                 {answers.map((answer, index) => {

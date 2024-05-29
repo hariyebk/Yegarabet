@@ -23,9 +23,9 @@ export type STATE = {
 }
 
 const INITIAL_STATE : STATE = {
-    firstStep: true,
+    firstStep: false,
     secondStep: false,
-    thirdStep: false,
+    thirdStep: true,
     isLoading: false,
     showPassword: false,
     showConfirmPassword: false
@@ -84,12 +84,12 @@ export default function SignupForm() {
     }
 
     return (
-    <section className="ml-10">
+    <section className="max-sm:mx-4 sm:mx-6 md:ml-10">
         <header>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.0.0/css/flag-icons.min.css" />
         </header>
         <div className="flex items-center justify-center">
-        <div className="mt-7 w-[700px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20">
+        <div className="mt-7 max-sm:w-full sm:w-[550px] md:w-[700px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20">
             {state.firstStep && <div className="flex flex-col flex-1 items-center">
                 <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Create your Account </h3>
                 <p className="text-sm text-secondary mt-3 mb-2"> Let's get you started. Please enter your details </p>
@@ -107,7 +107,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[230px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -124,7 +124,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={state.isLoading} {...field} placeholder="balcha" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="balcha" className="max-sm:w-[230px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -143,7 +143,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebebaclha@gmail.com" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="abebebaclha@gmail.com" className="max-sm:w-[230px] sm:w-[250px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -161,7 +161,7 @@ export default function SignupForm() {
                                 </FormLabel>
                                 <Select onValueChange= {field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger {...field} className="bg-primary max-sm:w-[200px] sm:w-[250px] px-3 py-2 text-black focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
+                                        <SelectTrigger {...field} className="bg-primary max-sm:w-[230px] sm:w-[250px] px-3 py-2 text-black focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
                                             <SelectValue placeholder="Select Gender"/>
                                         </SelectTrigger>
                                     </FormControl>
@@ -186,7 +186,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="date" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[200px] sm:w-[250px]  text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="date" disabled={state.isLoading} {...field} placeholder="abebe" className="max-sm:w-[230px] sm:w-[250px]  text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
@@ -203,14 +203,14 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <div className="flex items-center gap-2 max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white">
+                                    <div className="flex items-center gap-2 max-sm:w-[230px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white">
                                         <div className="flex items-center gap-2">
                                             <div className="block">
                                                 <span className="fi fi-et" />
                                             </div>
                                             <p className="text-sm"> +251 </p>
                                         </div>
-                                        <input type="text" disabled={state.isLoading} {...field} autoComplete="off" className="max-sm:w-[180px] sm:w-[230px] bg-inherit border-none focus-visible:outline-none" />
+                                        <input type="text" disabled={state.isLoading} {...field} autoComplete="off" className="max-sm:w-[150px] sm:w-[170px] bg-inherit border-none focus-visible:outline-none pr-2.5" />
                                     </div>
                                 </FormControl>
                                 <FormMessage/>
@@ -230,7 +230,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <div className="flex items-center justify-between max-sm:w-[200px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3">
+                                    <div className="flex items-center justify-between max-sm:w-[230px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3">
                                         <input type={`${state.showPassword ? "text" : "password"}`} disabled={state.isLoading} {...field} placeholder="*********" autoComplete="new-password" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
                                         {state.showPassword ? <button type="button" onClick={() => setState((values) => {
                                             return {...values, showPassword: false}
@@ -259,7 +259,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <div className="flex items-center justify-between max-sm:w-[200px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3 text-black text-sm">
+                                    <div className="flex items-center justify-between max-sm:w-[230px] sm:w-[250px] rounded-md bg-primary pr-5 py-2.5 pl-3 text-black text-sm">
                                         <input type={`${state.showConfirmPassword ? "text" : "password"}`} disabled={state.isLoading} {...field} placeholder="*********" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%]" />
                                         {state.showConfirmPassword ? <button type="button" onClick={() => setState((values) => {
                                             return {...values, showConfirmPassword: false}
@@ -291,7 +291,7 @@ export default function SignupForm() {
                                 </FormLabel>
                                 <Select onValueChange= {field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger {...field} className="bg-primary max-sm:w-[200px] sm:w-[250px] px-3 py-2 text-black focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
+                                        <SelectTrigger {...field} className="bg-primary max-sm:w-[230px] sm:w-[250px] px-3 py-2 text-black focus:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-white focus:ring-0">
                                             <SelectValue placeholder="Select City"/>
                                         </SelectTrigger>
                                     </FormControl>
@@ -319,7 +319,7 @@ export default function SignupForm() {
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
                                 </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={state.isLoading} {...field} placeholder="Engineer" className="max-sm:w-[200px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={state.isLoading} {...field} placeholder="Engineer" className="max-sm:w-[230px] sm:w-[250px] text-black text-sm px-3 py-2.5 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem> 

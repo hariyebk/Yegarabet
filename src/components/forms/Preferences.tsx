@@ -62,9 +62,9 @@ export default function Preferences() {
 
     return (
         <section className="flex flex-col flex-1">
-            <h3 className="text-xl text-primary mt-3 flex justify-center"> Tell us about your roommate preference </h3>
+            <h3 className="max-sm:text-base sm:text-xl text-primary max-sm:mx-3 mt-3 flex flex-wrap max-sm:leading-7 justify-center"> Tell us about your roommate preference </h3>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="px-20 py-3">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="max-sm:ml-8 max-sm:mr-4 sm:ml-20 py-3">
                     {/* GENDER PREFERENCE */}
                     <FormField
                     control={form.control}

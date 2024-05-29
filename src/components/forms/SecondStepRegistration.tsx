@@ -146,12 +146,12 @@ export default function SecondStepRegistration({setState} : Props) {
 
 
     return (
-        <section className="flex flex-col flex-1 items-start px-20 py-3">
+        <section className="flex flex-col flex-1 items-start max-sm:px-5 sm:px-10 md:px-20 py-3">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     {/* USER HAS RENTED ROOM */}
                     <div>
-                        <h3 className="text-lg text-primary"> Do you already have a rented room or house?
+                        <h3 className="max-sm:text-base sm:text-lg text-primary"> Do you already have a rented room or house?
                             <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
                         </h3>
                         <div className="flex items-center gap-3 mt-6">
@@ -191,7 +191,7 @@ export default function SecondStepRegistration({setState} : Props) {
                     </div>
                     {/* NUMBER OF ROOMMATES NEEDED */}
                     <div className="mt-8">
-                        <h3 className="text-lg text-primary"> How many roommates do you need ?
+                        <h3 className="max-sm:text-base sm:text-lg text-primary"> How many roommates do you need ?
                         <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
                         </h3>
                         {allSatate.roommatesNumberError && <p className="mt-3 text-sm text-red-500"> {allSatate.roommatesNumberError} </p>}
@@ -235,7 +235,7 @@ export default function SecondStepRegistration({setState} : Props) {
                         name="budget"
                         render={({ field }) => (
                         <FormItem className="flex flex-col items-start gap-2">
-                            <FormLabel className="text-lg text-primary"> 
+                            <FormLabel className="max-sm:text-base sm:text-lg text-primary"> 
                             What's your budget ?
                             <span className="text-sm text-red-500 ml-2 pb-2"> * </span>
                             </FormLabel>
@@ -257,7 +257,7 @@ export default function SecondStepRegistration({setState} : Props) {
                         <FormItem className="flex flex-col items-start gap-3">
                             <FormLabel> 
                                 <div className="flex items-center gap-2">
-                                    <p className="text-xl text-primary"> Add your social media Profiles </p>
+                                    <p className="max-sm:text-base sm:text-xl text-primary"> Add your social media Profiles </p>
                                     <span className="text-sm text-red-500"> * </span>
                                 </div>
                                 <p  className="text-sm text-secondary mt-3"> add at least one social media link </p>
@@ -319,7 +319,7 @@ export default function SecondStepRegistration({setState} : Props) {
                             name="description"
                             render={({ field }) => (
                             <FormItem className="flex flex-col justify-start gap-2">
-                                <FormLabel className="text-lg text-primary">
+                                <FormLabel className="max-sm:text-base sm:text-lg text-primary">
                                     How do you describe yourself ?
                                     <span className="text-sm text-red-500 ml-2"> * </span>
                                 </FormLabel>
