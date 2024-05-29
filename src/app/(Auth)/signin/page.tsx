@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
-import { FcGoogle } from "react-icons/fc";
 import { FiMessageCircle } from "react-icons/fi";
-import { VscGithubInverted } from "react-icons/vsc";
-import { BsLinkedin } from "react-icons/bs";
-import Linkedin from "/public/linkedin.svg"
+// import { FcGoogle } from "react-icons/fc";
+// import { VscGithubInverted } from "react-icons/vsc";
+// import { BsLinkedin } from "react-icons/bs";
+// import Linkedin from "/public/linkedin.svg"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -16,7 +16,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import ClipLoader from "react-spinners/ClipLoader";
 import { Login, SocialLogin } from "@/actions";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Signin() {
 
@@ -34,20 +33,22 @@ export default function Signin() {
 
     async function onSubmit(values: z.infer<typeof SiginFormSchema>){
         setIsLoading(true)
-        try{
-            const result = await Login(values)
-            if(result?.error){
-                return toast.error(result.error)
-            }
-            toast.success("You have Logged in")
-        }
-        catch(error: any){
-            console.log(error)
-            toast.error(error)
-        }
-        finally{
-            setIsLoading(false)
-        }
+        // TODO: UNCOMMENT THIS LATER
+        // try{
+        //     const result = await Login(values)
+        //     if(result?.error){
+        //         return toast.error(result.error)
+        //     }
+        //     toast.success("You have Logged in")
+        // }
+        // catch(error: any){
+        //     console.log(error)
+        //     toast.error(error)
+        // }
+        // finally{
+        //     setIsLoading(false)
+        // }
+        toast.error("coming soon")
     }
     async function handleSocialLogin(action: string){
         try{
@@ -61,7 +62,7 @@ export default function Signin() {
 
     return (
         <section className="min-h-screen mt-28 mb-20">
-            <div className="flex items-center justify-center container">
+            <div className="flex items-center justify-center max-sm:mx-5">
             <div className="mt-7 max-sm:w-full sm:w-[550px] md:w-[630px] max-sm:px-6 h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 md:pl-5">
                 <div className="flex flex-col flex-1 items-center">
                     <h3 className="max-sm:text-lg sm:text-xl md:text-2xl text-primary font-palanquin uppercase"> Sign in to your Account </h3>

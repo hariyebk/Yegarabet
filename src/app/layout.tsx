@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import StateProvider from "@/context/Provider";
 
 const nunito = Nunito({ subsets: ["latin", "cyrillic"] });
 
@@ -19,12 +20,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.className}>
-        <Toaster />
-        <Navbar />
-        {children}
-        <Footer/>
-      </body>
+      <StateProvider>
+        <body className={nunito.className}>
+          <Toaster />
+          <Navbar />
+          {children}
+          <Footer/>
+        </body>
+      </StateProvider>
     </html>
   );
 }

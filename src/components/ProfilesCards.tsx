@@ -7,10 +7,9 @@ import Linkedln from "/public/linkedin.svg"
 import Facebook from  "/public/facebook.svg"
 import Snapchat from "/public/snapchat.svg"
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { useState } from "react";
 import ViewPreferencesOfUser from "./ViewPreferencesOfUser";
 import { preferences } from "@/constants";
+import useGlobalState from "@/context/hook";
 
 type LOGOS = {
     instagram: StaticImageData,
@@ -49,18 +48,20 @@ interface ProfileCardProps {
 export default function ProfilesCards({firstName, socials, budget, image, age, sex, profession, numberofRoommates, residenceLocation, i, details=false} : ProfileCardProps) {
 
     const {push} = useRouter()
-    const [viewProfile, setViewProfile ] = useState<boolean>(false)
+    const {openPreference, setOpenPreference, openFilter, setOpenFilter} = useGlobalState()
 
     function handleSocialClick(socialLink: string){
         // TODO: Check if the user is authenticated first
-
     }
 
     function handleViewPreferences(){
         //TODO: Check if the user is Authenticated 
         const isAuth = true
         if(isAuth){
-            setViewProfile(true)
+            if(openFilter){
+                setOpenFilter(false)
+            }
+            setOpenPreference(true)
         }
         else{
             push("/signin")
@@ -68,7 +69,7 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
     }
 
     return (
-        <section className={`${details ? "w-full" : "w-[305px]"} h-auto border border-slate-700 rounded-[7px] bg-card px-3 pt-3 pb-4 mt-2`}>
+        <section className={`${details ? "w-full" : "w-[305px]"} h-auto border border-slate-700 rounded-[7px] bg-card px-3 pt-3 pb-4 max-sm:mt-6 sm:mt-2`}>
             <div className="flex items-center justify-between">
                 {/* TODO: This route hasn't been implemented yet */}
                 <button className="text-base text-primary font-semibold "> {firstName} </button>
@@ -116,8 +117,8 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
                     </button>
                 </div>
                 <div>
-                    {viewProfile && <div className="fixed inset-0 top-0 mt-3.5 z-20 overflow-y-hidden">
-                        <ViewPreferencesOfUser setViewProfile={setViewProfile} preferences={preferences} />
+                    {openPreference && <div className="fixed inset-0 top-0 mt-3.5 z-20 overflow-y-hidden">
+                        <ViewPreferencesOfUser setViewProfile={setOpenPreference} preferences={preferences} />
                     </div>
                     }
                 </div>

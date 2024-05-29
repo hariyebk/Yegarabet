@@ -11,14 +11,14 @@ export default function Navbar() {
     const [openNav, setOpenNav] = useState<boolean>(false)
 
     return (
-        <main className="w-full bg-background h-[80px] fixed inset-y-0 top-0 max-md:px-9 max-md:py-5 md:p-7 shadow shadow-black z-10">
+        <main className="w-full bg-background h-[80px] fixed inset-y-0 top-0 max-sm:px-5 sm:px-9 max-md:py-5 md:p-7 shadow shadow-black max-xl:z-20 xl:z-10">
             <nav className="flex items-center justify-between md:px-10 ">
                 <div className="flex items-center md:gap-10 lg:gap-20">
                     <div className="flex items-center gap-3">
                         <button onClick={() => setOpenNav(true)} className="md:hidden focus-visible:outline-none">
                             <AiOutlineMenu className="w-5 h-5 text-button" />
                         </button>
-                        <Link href="/">
+                        <Link href="/" className="hover:cursor-pointer">
                             <span> 🏠Yegarabet </span>
                         </Link>
                     </div>

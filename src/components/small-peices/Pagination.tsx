@@ -35,7 +35,7 @@ export default function Pagination({TotalResults} : Props) {
     }
 
     return (
-        <section className="pr-7 w-full flex justify-end">
+        <section className="xl:pr-7 w-full flex max-xl:justify-center xl:justify-end">
             {totalPages <= 1 ? null : <div className="w-fit flex items-center justify-between">
                 <button onClick={handlePrevious}>
                     <IoIosArrowBack className="w-5 h-5 text-secondary" />

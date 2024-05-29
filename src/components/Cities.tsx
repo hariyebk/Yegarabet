@@ -13,7 +13,7 @@ export default function Cities() {
                     <p className="max-md:w-full md:w-[650px] max-sm:text-base sm:text-lg text-secondary text-center leading-7"> Connect with roommates across different cities and neighborhoods. Our platform helps you find the perfect match for your living situation.</p>
                 </div>
             </div>
-            <div className="flex flex-wrap max-md:flex-col items-center max-sm:gap-10 sm:gap-14 md:gap-12 lg:gap-8 max-sm:mt-14 sm:mt-20 md:mt-16 xl:ml-16">
+            <div className="flex flex-wrap max-md:flex-col items-center md:justify-center max-sm:gap-10 sm:gap-14 md:gap-12 lg:gap-8 max-sm:mt-14 sm:mt-20 md:mt-16 xl:ml-16">
                 {Cities_Images.map((element, index) => {
                     return (
                         <div key={element.label} className="max-sm:px-3">

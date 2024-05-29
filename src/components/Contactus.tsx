@@ -1,8 +1,17 @@
+'use client'
+
 import Image from "next/image";
 import support from "/public/support.png"
+import toast from "react-hot-toast";
 
+// TODO: MAKE THIS A REACT FORM
 
 export default function Contactus() {
+
+    function handleSend(){
+        toast.error("coming soon")
+    }
+
     return (
         <main className="max-sm:mt-20 sm:mt-28">
             <div className="flex items-start justify-between md:gap-16">
@@ -31,7 +40,7 @@ export default function Contactus() {
                             </label> <br/>
                             <textarea name = "message" placeholder="write your question here" className="bg-background text-sm text-primary mt-5 max-sm:w-[280px] sm:w-[360px] md:w-[300px] xl:w-[400px] h-[120px] p-3 border border-secondary rounded-md focus-visible:ring-0 focus-visible:outline-none" />
                         </div>
-                        <button type="submit" className="mt-10 w-[150px] bg-button px-5 py-2 text-base text-black font-semibold rounded-md"> Submit </button>
+                        <button type="button" onClick={handleSend} className="mt-10 w-[150px] bg-button px-5 py-2 text-base text-black font-semibold rounded-md"> Submit </button>
                     </form>
                 </div>
             </div>

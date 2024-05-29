@@ -8,6 +8,7 @@ import { z } from "zod"
 import { useEffect, useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import ClipLoader from "react-spinners/ClipLoader"
+import toast from "react-hot-toast"
 
 
 export default function Preferences() {
@@ -58,6 +59,7 @@ export default function Preferences() {
 
     async function onSubmit(values: z.infer<typeof  QuestionsSchema>){
         const data = [values]
+        toast.error("coming soon")
     }
 
     return (

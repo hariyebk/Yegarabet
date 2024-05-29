@@ -35,7 +35,7 @@ export default function Footer() {
                 </div>
                 <hr className='w-full border-t-0.5 border-regular mt-10' />
                 <div className='flex max-md:flex-col max-md:gap-10 md:items-center md:justify-between max-md:mt-7 md:mt-14 lg:mr-10'>
-                    <p className='text-sm text-regular'> Copyright @ 2024 Yegarabet All rights reserved. </p>
+                    <p className='text-sm text-regular leading-7'> Copyright @ 2024 Yegarabet All rights reserved. </p>
                     <ul className='flex items-center gap-5'>
                         <Link href="https://www.facebook.com"> <FaFacebook className='w-4 h-4' /> </Link>
                         <Link href="https://www.instagram.com"> <FaInstagram className='w-4 h-4' /> </Link>

@@ -246,6 +246,12 @@ export const SAFETY_TIPS = [
         description: "Remember that you're living with a stranger, so respect each other's personal space and belongings. Be willing to compromise and adapt to changing circumstances."
     }
 ]
+export type IcontextType = {
+    openPreference: boolean,
+    setOpenPreference: React.Dispatch<React.SetStateAction<boolean>>
+    openFilter: boolean,
+    setOpenFilter: React.Dispatch<React.SetStateAction<boolean>>
+}
 export const ASCENDING = "ascending"
 export const DESCENDING = "descending "
 export const PAGE_SIZE = 20

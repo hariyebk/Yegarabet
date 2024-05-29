@@ -1,4 +1,4 @@
-import { IoCloseCircleSharp, IoTerminalSharp } from "react-icons/io5";
+import { IoCloseCircleSharp } from "react-icons/io5";
 import ProfilesCards from "./ProfilesCards";
 import hari from "/public/hari.jpg"
 
@@ -9,14 +9,14 @@ interface Props {
 
 export default function ViewPreferencesOfUser({setViewProfile, preferences} : Props) {
     return (
-        <section className='absolute top-16 right-0 w-[600px] h-auto bg-card border border-slate-700 z-20 pl-10 pr-7 py-7'>
+        <section className='absolute top-16 right-0 max-sm:w-[300px] sm:w-[450px] md:w-[550px] lg:w-[600px] h-auto bg-card border border-slate-700 z-20 pl-10 md:pr-7 py-7'>
             <div className="h-full overflow-y-scroll custom-scrollbar pr-5">
                 <div className="flex items-center justify-end">
                     <button onClick={() => setViewProfile(false)}>
                         <IoCloseCircleSharp className="w-8 h-8 text-button" />
                     </button>
                 </div>
-                <div className="mt-5">
+                <div className="mt-5 max-lg:hidden">
                     <ProfilesCards firstName="Harun" socials={[{
                             type: "instagram",
                             link: "https://instagram.com/hariyebk",

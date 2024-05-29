@@ -21,7 +21,7 @@ export default async function page({searchParams} : Props){
                 <RoommateFilter />
             </div>
             {/* FAKE DATA */}
-            <section className="w-full flex flex-wrap items-center justify-start gap-6">
+            <section className="w-full flex flex-wrap items-center max-xl:justify-center xl:justify-start sm:gap-10 md:gap-14 xl:gap-5 max-sm:mt-5 sm:mt-10 xl:mt-5">
                 {Array.from({length: 20}, (index, i) => {
                     return (
                         <ProfilesCards key={i} firstName="Harun" socials={[{
@@ -40,8 +40,8 @@ export default async function page({searchParams} : Props){
                     )
                 })}
             </section>
-            <div className="mt-24 flex items-start justify-between">
-                <div className="w-[300px]">
+            <div className="mt-24 flex items-start xl:justify-between">
+                <div className="w-[300px] max-xl:hidden">
                     <p className="text-lg text-primary"> Total number of results &nbsp;  {20}</p>
                 </div>
                 <Pagination TotalResults={60} />

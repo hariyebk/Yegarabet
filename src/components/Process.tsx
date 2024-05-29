@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Process() {
     return (
-        <main className='max-sm:mt-20 sm:mt-24'>
+        <main className='max-sm:mt-16 sm:mt-24'>
             <h2 className="flex justify-center text-primary max-sm:text-[19px] sm:text-3xl md:text-4xl font-bold"> Share a home, Save your Money</h2>
             <div className="flex max-md:flex-col max-md:w-full max-md:items-center md:items-start max-md:gap-14 md:gap-10 xl:gap-16 max-sm:mt-10 sm:mt-16 lg:mt-20 xl:ml-16">
                 {Steps.map((item) => {
