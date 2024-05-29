@@ -6,8 +6,6 @@ import bahirdar from "/public/cities/bahirdar.jpg"
 import diredawa from "/public/cities/diredawa.jpg"
 import harar from "/public/cities/harar.jpg"
 import arbaminch from "/public/cities/arbaminch.jpg"
-import gonder from "/public/cities/gonder.jpg"
-import jimma from "/public/cities/jimma.jpg"
 
 
 export const Nav_Links = [
@@ -109,15 +107,7 @@ export const Cities_Images = [
     {
         image: arbaminch,
         label: "Arbaminch"
-    },
-    {
-        image: gonder,
-        label: "Gonder"
-    },
-    {
-        image: jimma,
-        label: "Jimma"
-    },
+    }
 ]
 export const Steps = [
     {

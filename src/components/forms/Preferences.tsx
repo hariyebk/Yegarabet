@@ -58,7 +58,6 @@ export default function Preferences() {
 
     async function onSubmit(values: z.infer<typeof  QuestionsSchema>){
         const data = [values]
-        console.log(data)
     }
 
     return (

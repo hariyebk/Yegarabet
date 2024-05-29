@@ -64,8 +64,6 @@ export default function SignupForm() {
             password: values.password,
             phoneNumber: `0${values.phoneNumber}`
         }
-        
-        console.log(data)
 
         setState((statevalues) => {
             return {...statevalues, firstStep: false, secondStep: true}

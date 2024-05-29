@@ -117,8 +117,6 @@ export default function SecondStepRegistration({setState} : Props) {
             description: values.description
         }
 
-        console.log(data)
-
         setState((statedata) => {
             return {...statedata, secondStep: false, thirdStep: true}
         })

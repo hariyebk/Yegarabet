@@ -6,7 +6,7 @@ import Process from "@/components/Process";
 
 export default function Home() {
   return (
-    <main className="min-h-screen mt-40 mb-28 mx-20">
+    <main className="min-h-screen max-sm:mt-28 sm:mt-36 md:mt-40 mb-28 max-md:mx-10 md:mx-20">
       <Hero />
       <Cities />
       <div id="how-it-works"/>
