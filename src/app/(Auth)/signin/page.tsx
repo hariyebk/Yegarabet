@@ -62,9 +62,9 @@ export default function Signin() {
     return (
         <section className="min-h-screen mt-28 mb-20">
             <div className="flex items-center justify-center container">
-            <div className="mt-7 w-[630px] max-sm:w-[350px] h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 pl-5">
+            <div className="mt-7 max-sm:w-full sm:w-[550px] md:w-[630px] max-sm:px-6 h-auto bg-card shadow-xl max-md:rounded-lg rounded-xl pt-10 pb-20 md:pl-5">
                 <div className="flex flex-col flex-1 items-center">
-                    <h3 className="text-2xl max-md:text-xl text-primary font-palanquin uppercase"> Sign in to your Account </h3>
+                    <h3 className="max-sm:text-lg sm:text-xl md:text-2xl text-primary font-palanquin uppercase"> Sign in to your Account </h3>
                     <p className="text-sm text-secondary mt-3 mb-2"> Welcome back. Please enter your details </p>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center  gap-3">
@@ -74,9 +74,9 @@ export default function Signin() {
                             name="email"
                             render={({ field }) => (
                             <FormItem className="mt-4 flex flex-col items-start gap-3">
-                                <FormLabel className="text-base text-primary"> Email address </FormLabel>
+                                <FormLabel className="max-sm:text-sm sm:text-base text-primary"> Email address </FormLabel>
                                 <FormControl>
-                                    <input type="text" disabled={isLoading} {...field} placeholder="mamo@example.com" className="w-[350px] max-md:w-[270px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
+                                    <input type="text" disabled={isLoading} {...field} placeholder="mamo@example.com" className="max-sm:w-[250px] sm:w-[350px] text-black text-sm px-3 py-3 rounded-md bg-primary focus-visible:outline-none focus-visible:ring-white" />
                                 </FormControl>
                                 <FormMessage className="-pt-5 formError" />
                             </FormItem>
@@ -88,9 +88,9 @@ export default function Signin() {
                             name="password"
                             render={({ field }) => (
                             <FormItem className="mt-4 flex flex-col items-start gap-3" >
-                                <FormLabel className="text-base text-primary"> Password </FormLabel>
+                                <FormLabel className="max-sm:text-sm sm:text-base text-primary"> Password </FormLabel>
                                 <FormControl>
-                                    <div className="flex items-center justify-between w-[350px] max-md:w-[270px] rounded-md bg-primary pr-5 py-3 pl-3">
+                                    <div className="flex items-center justify-between max-sm:w-[250px] sm:w-[350px] rounded-md bg-primary pr-5 py-3 pl-3">
                                         <input type={`${showPassword ? "text" : "password"}`} disabled={isLoading} {...field} placeholder="*********" className="bg-primary focus:outline-none focus-visible:ring-white border-none w-[90%] text-black text-sm" />
                                         {showPassword ? <button type="button" onClick={() => setShowPassword(false)}> 
                                             <GoEye className="w-4 h-4 text-black" />
@@ -110,7 +110,7 @@ export default function Signin() {
                                     <p>{emailMessage}</p>
                                 </div>
                             )}
-                            <button type="submit" className="mt-10 w-[350px] max-md:w-[270px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold"> {isLoading ? (
+                            <button type="submit" className="mt-10 max-sm:w-[250px] sm:w-[350px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold"> {isLoading ? (
                                 <ClipLoader
                                 color="#ffffff"
                                 loading={true}
@@ -124,9 +124,9 @@ export default function Signin() {
                     </Form>
                     <div className="">
                         <div className="mt-10 max-md:mt-14 flex items-center gap-3">
-                            <hr className="border border-t-slate-700 w-[90px] max-md:w-[60px]" />
+                            <hr className="border border-t-slate-700 max-sm:w-[50px] sm:w-[90px]" />
                             <p className="text-primary text-base"> or countinue with </p>
-                            <hr className="border border-t-gray-400 w-[100px] max-md:w-[60px]" />
+                            <hr className="border border-t-gray-400 max-sm:w-[50px] sm:w-[100px]" />
                         </div>
                         {/* <div className="mt-10 flex items-start justify-center gap-20">
                             <button onClick={() => handleSocialLogin("github")} disabled={isLoading} className="px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
@@ -136,7 +136,7 @@ export default function Signin() {
                                 <FcGoogle className="w-6 h-6" />
                             </button>
                         </div> */}
-                        <div className="mt-10 flex items-center justify-center gap-2 text-base text-primary">
+                        <div className="mt-10 flex flex-wrap max-sm:leading-7 items-center justify-center gap-2 text-base text-primary">
                             <p> Don't have an account ? </p>
                             <Link href="/signup" className="text-button font-semibold"> Sign Up </Link>
                         </div>
