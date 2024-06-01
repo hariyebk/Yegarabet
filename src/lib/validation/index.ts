@@ -44,6 +44,7 @@ export const SecondStepSchema = z.object({
     instagram: z.object({type: z.string(), link: z.string()}).optional(),
     telegram: z.object({type: z.string(), link: z.string()}).optional(),
     budget: z.string().min(1, {message: "budget is required"}).regex(/^[\d,]+$/),
+    image: z.custom<File[]>(),
     description: z.string().min(1, {message: "this field is required"})
 }).refine(
     (value) => {

@@ -9,6 +9,7 @@ import { GoPlus } from "react-icons/go";
 import SocialLink from "../small-peices/SocialLink"
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form"
+import userAvatar from "/public/userAvatar.png"
 import { z } from "zod"
 import { SecondStepSchema } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,6 +18,7 @@ import { Checkbox } from "../ui/checkbox"
 // import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select"
 import ClipLoader from "react-spinners/ClipLoader"
 import { STATE } from "./SignupForm"
+import AvatarUploader from "../AvatarUploader"
 
 interface Props {
     setState: React.Dispatch<React.SetStateAction<STATE>>
@@ -73,6 +75,7 @@ export default function SecondStepRegistration({setState} : Props) {
             instagram: undefined,
             telegram: undefined,
             budget: "",
+            image: [],
             description: "",
         },
     })
@@ -114,6 +117,7 @@ export default function SecondStepRegistration({setState} : Props) {
             peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
             currentRentPrice: allSatate.currentRentPrice ? allSatate.currentRentPrice : null,
             budget: `${values.budget} birr/month`,
+            image: values.image.length > 0 ? values.image[0] : userAvatar,
             description: values.description
         }
 
@@ -312,6 +316,24 @@ export default function SecondStepRegistration({setState} : Props) {
                             <p> Add more link </p>
                         </button>}
                     </div>
+                    {/* IMAGE UPLOADER */}
+                    <div className="mt-9">
+                        <FormField
+                        control={form.control}
+                        name="image"
+                        render={({ field }) => (
+                        <FormItem className="flex flex-col justify-start gap-5">
+                            <FormLabel className="max-sm:text-base sm:text-lg text-primary">
+                                Upload your profile image
+                            </FormLabel>
+                            <FormControl>
+                                <AvatarUploader fieldchange={field.onChange} mediaUrl="/public/userAvatar.png" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                        />
+                    </div>
                     {/* USER PERSONALITY DESCRIPTION */}
                     <div className="mt-9">
                         <FormField
@@ -324,7 +346,7 @@ export default function SecondStepRegistration({setState} : Props) {
                                     <span className="text-sm text-red-500 ml-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <textarea {...field} className="max-sm:w-[250px] sm:w-[350px] md:w-[400px] max-lg:h-[100px] lg:h-[120px] bg-primary borde rounded-md px-5 py-4 focus-visible:outline-none text-sm text-black" />
+                                    <textarea {...field} className="max-sm:w-full sm:w-[350px] md:w-[400px] max-lg:h-[100px] lg:h-[120px] bg-primary borde rounded-md px-5 py-4 focus-visible:outline-none text-sm text-black" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
