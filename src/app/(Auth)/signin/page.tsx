@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
 // import { FcGoogle } from "react-icons/fc";
@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast"
 import { SiginFormSchema } from "@/lib/validation";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import ClipLoader from "react-spinners/ClipLoader";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Login, SocialLogin } from "@/actions";
 import Link from "next/link";
 
@@ -22,6 +23,9 @@ export default function Signin() {
     const [showPassword, setShowPassword] = useState(false)
     const [emailMessage, setEmailMessage] = useState<string>("")
     const [isLoading, setIsLoading] = useState(false)
+    const [isVerified, setIsVerified] = useState<boolean>(false)
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
 
     const form = useForm<z.infer<typeof SiginFormSchema>>({
         resolver: zodResolver(SiginFormSchema),
@@ -50,15 +54,30 @@ export default function Signin() {
         // }
         toast.error("coming soon")
     }
-    async function handleSocialLogin(action: string){
-        try{
-            await SocialLogin(action)
+    async function handleCaptchaSubmission(token: string | null) {
+        try {
+            if (token) {
+            await fetch("/api/recaptcha", {
+                method: "POST",
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ token }),
+            });
+            setIsVerified(true);
+            }
+        } catch (e: any) {
+            setIsVerified(false);
         }
-        catch(error: any){
-            toast.error(error || "something went wrong")
-        } 
     }
-
+    function handleCaptchaChange(token: string | null){
+        handleCaptchaSubmission(token)
+    }
+    function handleExpire(){
+        setIsVerified(false)
+        recaptchaRef.current?.reset()
+    }
 
     return (
         <section className="min-h-screen mt-28 mb-20">
@@ -111,14 +130,22 @@ export default function Signin() {
                                     <p>{emailMessage}</p>
                                 </div>
                             )}
-                            <button type="submit" className="mt-10 max-sm:w-[250px] sm:w-[350px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold"> {isLoading ? (
+                            <div className="mt-8 block">
+                                <ReCAPTCHA
+                                    sitekey={SITE_KEY}
+                                    onChange={handleCaptchaChange}
+                                    onExpired={handleExpire}
+                                    size="normal"
+                                    style={{transform:"scale(0.82)", transformOrigin:"0 0", width: "250px", height: "25px",}}
+                                />
+                            </div>
+                            <button type="submit" disabled={!isVerified} className="mt-16 max-sm:w-[250px] sm:w-[350px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold disabled:cursor-not-allowed"> {isLoading ? (
                                 <ClipLoader
                                 color="#ffffff"
                                 loading={true}
                                 size={24}
                                 aria-label="Loading Spinner"
                                 data-testid="loader"
-                                className="mt-2"
                                 />
                             ) : "Sign in" } </button>
                         </form>

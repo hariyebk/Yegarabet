@@ -5,13 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Link from "next/link"
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from "../ui/select"
 import { GoEye, GoEyeClosed } from "react-icons/go"
 import { cities } from "@/constants"
 import SecondStepRegistration from "./SecondStepRegistration"
 import Preferences from "./Preferences"
+import ReCAPTCHA from "react-google-recaptcha"
 
 export type STATE = {
     firstStep: boolean,
@@ -34,6 +35,9 @@ const INITIAL_STATE : STATE = {
 export default function SignupForm() {
 
     const [state, setState] = useState<STATE>(INITIAL_STATE)
+    const [isVerified, setIsVerified] = useState<boolean>(false)
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
 
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),
@@ -83,6 +87,31 @@ export default function SignupForm() {
         // }
     }
 
+    async function handleCaptchaSubmission(token: string | null) {
+        try {
+            if (token) {
+            await fetch("/api/recaptcha", {
+                method: "POST",
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ token }),
+            });
+            setIsVerified(true);
+            }
+        } catch (e: any) {
+            setIsVerified(false);
+        }
+    }
+    function handleCaptchaChange(token: string | null){
+        handleCaptchaSubmission(token)
+    }
+    function handleExpire(){
+        setIsVerified(false)
+        recaptchaRef.current?.reset()
+    }
+
     return (
     <section className="max-sm:mx-4 sm:mx-6 md:ml-10">
         <header>
@@ -118,7 +147,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="lastName"
                             render={({ field }) => (
-                            <FormItem className="flex flex-col items-start gap-2">
+                            <FormItem className="flex flex-col items-start gap-2 max-md:mt-3">
                                 <FormLabel className="text-base text-primary"> 
                                 Last name 
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
@@ -137,7 +166,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="email"
                             render={({ field }) => (
-                            <FormItem className="mt-4 flex flex-col items-start gap-2">
+                            <FormItem className="mt-6 flex flex-col items-start gap-2">
                                 <FormLabel className="text-base text-primary"> 
                                 Email
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
@@ -154,7 +183,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="gender"
                             render={({ field }) => (
-                            <FormItem className="mt-4 flex flex-col items-start gap-2">
+                            <FormItem className="max-md:mt-4 mt-6 flex flex-col items-start gap-2">
                                 <FormLabel className="text-base text-primary"> 
                                 Gender
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
@@ -197,7 +226,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="phoneNumber"
                             render={({ field }) => (
-                            <FormItem className="mt-6 flex flex-col items-start gap-2">
+                            <FormItem className="mt-6 flex flex-col items-start gap-2 max-md:mt-2">
                                 <FormLabel className="text-base text-primary">
                                 Phone number 
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
@@ -253,7 +282,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="passwordConfirm"
                             render={({ field }) => (
-                            <FormItem className="mt-6 flex flex-col items-start gap-2">
+                            <FormItem className="mt-6 flex flex-col items-start gap-2 max-md:mt-2">
                                 <FormLabel className="text-base text-primary"> 
                                 Confirm your password 
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span>
@@ -284,7 +313,7 @@ export default function SignupForm() {
                             control={form.control}
                             name="city"
                             render={({ field }) => (
-                            <FormItem className="mt-4 flex flex-col items-start gap-2">
+                            <FormItem className="max-md:mt-6 md:mt-4 flex flex-col items-start gap-2">
                                 <FormLabel className="text-base text-primary"> 
                                 City
                                 <span className="text-sm text-red-500 ml-1 pb-2"> * </span> 
@@ -326,7 +355,16 @@ export default function SignupForm() {
                             )} />
                         </div>
                         <div className="text-sm text-primary mt-6 mb-2"> Already have an account ? <Link href="/signin" className="text-button font-semibold ml-2"> Signin </Link> </div>
-                        <button type="submit" className="bg-button w-full mt-3 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none">
+                        <div className="mt-5 block max-md:mr-9 md:mr-10">
+                            <ReCAPTCHA
+                                sitekey={SITE_KEY}
+                                onChange={handleCaptchaChange}
+                                onExpired={handleExpire}
+                                size="normal"
+                                style={{transform:"scale(0.76)", transformOrigin:"5 5", width: "250px", height: "25px",}}
+                            />
+                        </div>
+                        <button type="submit" disabled={!isVerified} className="bg-button max-sm:w-[230px] sm:w-full mt-16 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none disabled:cursor-not-allowed">
                             Next
                         </button>
                     </form>
