@@ -23,8 +23,8 @@ export type STATE = {
 }
 
 const INITIAL_STATE : STATE = {
-    firstStep: false,
-    secondStep: true,
+    firstStep: true,
+    secondStep: false,
     thirdStep: false,
     isLoading: false,
     showPassword: false,
