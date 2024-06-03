@@ -50,7 +50,7 @@ export async function Login({email, password} : {email: string, password: string
         // Generating the JWT token using jose
         const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg: "HS256"}).sign(secret)
         // set the jwt token as a cookie
-        setCookie("jwt", token, {httpOnly: true, secure: true})
+        setCookie("jwt", token, {httpOnly: true, secure: true, sameSite: "lax"})
         // returning the signed in user to the client
         return {
             id: user.id,
