@@ -1,6 +1,6 @@
 'use server'
 
-import { SiginFormSchema, SignupFormSchema } from "@/lib/validation"
+import { SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
 import * as jose from "jose"
 import {setCookie} from "cookies-next"
@@ -24,8 +24,7 @@ interface ThirdStepActionProps {
     userId: string
 }
 
-export async function Login(values: z.infer<typeof SiginFormSchema>){
-    const {email, password} = values
+export async function Login({email, password} : {email: string, password: string}){
     try{
         // Check if the email exists first
         const user = await db.user.findUnique({
@@ -51,7 +50,7 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
         // Generating the JWT token using jose
         const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg: "HS256"}).sign(secret)
         // set the jwt token as a cookie
-        setCookie("jwt", token, {maxAge: 6 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true,})
+        setCookie("jwt", token, {httpOnly: true, secure: true})
         // returning the signed in user to the client
         return {
             id: user.id,

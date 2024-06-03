@@ -2,7 +2,6 @@
 
 import React, { useRef, useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
-import { FiMessageCircle } from "react-icons/fi";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -19,7 +18,6 @@ import { SITE_KEY } from "@/constants";
 export default function Signin() {
 
     const [showPassword, setShowPassword] = useState(false)
-    const [emailMessage, setEmailMessage] = useState<string>("")
     const [isLoading, setIsLoading] = useState(false)
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
@@ -36,19 +34,23 @@ export default function Signin() {
     async function onSubmit(values: z.infer<typeof SiginFormSchema>){
         setIsLoading(true)
         try{
-            const result = await Login(values)
-            if(result?.error){
+            const result = await Login({
+                email: values.email,
+                password: values.password
+            })
+            if(result.error){
                 return toast.error(result.error)
             }
             //TODO: UPDATE THE GLOBAL STATE
             toast.success("You have Logged in")
-            setIsLoading(false)
             push("/find-roommates")
         }
         catch(error: any){
             console.log(error)
-            setIsLoading(false)
             toast.error(error)
+        }
+        finally{
+            setIsLoading(false)
         }
     }
     async function handleCaptchaSubmission(token: string | null) {
@@ -121,12 +123,6 @@ export default function Signin() {
                             </FormItem>
                             )}
                             />
-                            {emailMessage && (
-                                <div className="mt-5 mr-16 bg-emerald-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-black">
-                                    <FiMessageCircle className="h-4 w-4 text-emerald-500" />
-                                    <p>{emailMessage}</p>
-                                </div>
-                            )}
                             <div className="mt-8 block">
                                 <ReCAPTCHA
                                     sitekey={SITE_KEY}
