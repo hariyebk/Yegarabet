@@ -3,10 +3,6 @@
 import React, { useRef, useState } from "react";
 import { GoEye, GoEyeClosed } from "react-icons/go";
 import { FiMessageCircle } from "react-icons/fi";
-// import { FcGoogle } from "react-icons/fc";
-// import { VscGithubInverted } from "react-icons/vsc";
-// import { BsLinkedin } from "react-icons/bs";
-// import Linkedin from "/public/linkedin.svg"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -15,8 +11,10 @@ import { SiginFormSchema } from "@/lib/validation";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import ClipLoader from "react-spinners/ClipLoader";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Login, SocialLogin } from "@/actions";
+import { Login} from "@/actions";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { SITE_KEY } from "@/constants";
 
 export default function Signin() {
 
@@ -25,7 +23,7 @@ export default function Signin() {
     const [isLoading, setIsLoading] = useState(false)
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
-    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
+    const {push} = useRouter()
 
     const form = useForm<z.infer<typeof SiginFormSchema>>({
         resolver: zodResolver(SiginFormSchema),
@@ -36,36 +34,35 @@ export default function Signin() {
     })
 
     async function onSubmit(values: z.infer<typeof SiginFormSchema>){
-        // setIsLoading(true)
-        // TODO: UNCOMMENT THIS LATER
-        // try{
-        //     const result = await Login(values)
-        //     if(result?.error){
-        //         return toast.error(result.error)
-        //     }
-        //     toast.success("You have Logged in")
-        // }
-        // catch(error: any){
-        //     console.log(error)
-        //     toast.error(error)
-        // }
-        // finally{
-        //     setIsLoading(false)
-        // }
-        toast.error("coming soon")
+        setIsLoading(true)
+        try{
+            const result = await Login(values)
+            if(result?.error){
+                return toast.error(result.error)
+            }
+            //TODO: UPDATE THE GLOBAL STATE
+            toast.success("You have Logged in")
+            setIsLoading(false)
+            push("/find-roommates")
+        }
+        catch(error: any){
+            console.log(error)
+            setIsLoading(false)
+            toast.error(error)
+        }
     }
     async function handleCaptchaSubmission(token: string | null) {
         try {
             if (token) {
-            await fetch("/api/recaptcha", {
-                method: "POST",
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token }),
-            });
-            setIsVerified(true);
+                await fetch("/api/recaptcha", {
+                    method: "POST",
+                    headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ token }),
+                });
+                setIsVerified(true);
             }
         } catch (e: any) {
             setIsVerified(false);

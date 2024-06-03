@@ -9,10 +9,13 @@ import { useRef, useState } from "react"
 import Link from "next/link"
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from "../ui/select"
 import { GoEye, GoEyeClosed } from "react-icons/go"
-import { cities } from "@/constants"
+import { SITE_KEY, cities } from "@/constants"
 import SecondStepRegistration from "./SecondStepRegistration"
 import Preferences from "./Preferences"
 import ReCAPTCHA from "react-google-recaptcha"
+import { RegisterUser } from "@/actions"
+import toast from "react-hot-toast"
+import ClipLoader from "react-spinners/ClipLoader"
 
 export type STATE = {
     firstStep: boolean,
@@ -20,7 +23,8 @@ export type STATE = {
     thirdStep: boolean,
     isLoading: boolean,
     showPassword: boolean,
-    showConfirmPassword: boolean
+    showConfirmPassword: boolean,
+    userId: string
 }
 
 const INITIAL_STATE : STATE = {
@@ -29,7 +33,8 @@ const INITIAL_STATE : STATE = {
     thirdStep: false,
     isLoading: false,
     showPassword: false,
-    showConfirmPassword: false
+    showConfirmPassword: false,
+    userId: ""
 }
 
 export default function SignupForm() {
@@ -37,7 +42,6 @@ export default function SignupForm() {
     const [state, setState] = useState<STATE>(INITIAL_STATE)
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
-    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
 
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),
@@ -56,7 +60,6 @@ export default function SignupForm() {
     })
 
     async function onSubmit(values: z.infer<typeof  SignupFormSchema>){
-
         const data = {
             firstName: values.firstName,
             lastName: values.lastName,
@@ -66,25 +69,36 @@ export default function SignupForm() {
             city: values.city,
             profession: values.profession,
             password: values.password,
-            phoneNumber: `0${values.phoneNumber}`
+            phoneNumber: `0${values.phoneNumber}`,
+            passwordConfirm: values.passwordConfirm
         }
 
-        setState((statevalues) => {
-            return {...statevalues, firstStep: false, secondStep: true}
+        setState((statevalue) => {
+            return {...statevalue, isLoading: true}
         })
-        // setState((statevalue) => {
-        //     return {...statevalue, isLoading: true}
-        // })
-        // try{
-        // }
-        // catch(error: any){
 
-        // }
-        // finally{
-        //     setState((statevalue) => {
-        //         return {...statevalue, isLoading: false}
-        //     })
-        // }
+        try{
+            const result = await RegisterUser(data)
+            if(result?.error){
+                return toast.error(result.error)
+            }
+            // set the userId state to update the user data on the next step
+            setState((statevalues) => {
+                return {...statevalues, userId: result.userId as string}
+            })
+            // update the loading state to false
+            setState((statevalue) => {
+                return {...statevalue, isLoading: false}
+            })
+            // show the user the next page
+            setState((statevalues) => {
+                return {...statevalues, firstStep: false, secondStep: true}
+            })
+        }
+        catch(error: any){
+            console.log(error)
+            toast.error(error)
+        }
     }
 
     async function handleCaptchaSubmission(token: string | null) {
@@ -364,14 +378,24 @@ export default function SignupForm() {
                                 style={{transform:"scale(0.76)", transformOrigin:"5 5", width: "250px", height: "25px",}}
                             />
                         </div>
-                        <button type="submit" disabled={!isVerified} className="bg-button max-sm:w-[230px] sm:w-full mt-16 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none disabled:cursor-not-allowed">
-                            Next
+                        <button type="submit" disabled={!isVerified || state.isLoading} className="bg-button max-sm:w-[230px] sm:w-full mt-16 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none disabled:cursor-not-allowed">
+                            {state.isLoading ?
+                            <ClipLoader
+                            color="#ffffff"
+                            loading={true}
+                            size={24}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                            />
+                            : 
+                            "Next"
+                            }
                         </button>
                     </form>
                 </Form>
             </div>}
-            {state.secondStep && <SecondStepRegistration setState={setState} />}
-            {state.thirdStep && <Preferences />}
+            {state.secondStep && <SecondStepRegistration state={state} setState={setState} />}
+            {state.thirdStep && <Preferences state={state} setState={setState} />}
         </div>
         </div>
     </section>

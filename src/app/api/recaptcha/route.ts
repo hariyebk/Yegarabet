@@ -1,5 +1,4 @@
 import axios from "axios";
-import { error } from "console";
 
 export async function POST(req: Request) {
     // check if the request method is POST
