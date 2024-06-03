@@ -3,7 +3,7 @@
 import { SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
 import * as jose from "jose"
-import {setCookie} from "cookies-next"
+import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 
@@ -50,7 +50,12 @@ export async function Login({email, password} : {email: string, password: string
         // Generating the JWT token using jose
         const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg: "HS256"}).sign(secret)
         // set the jwt token as a cookie
-        setCookie("jwt", token, {httpOnly: true, secure: true, sameSite: "lax"})
+        cookies().set({
+            name: "jwt",
+            value: token,
+            httpOnly: true,
+            secure: true,
+        })
         // returning the signed in user to the client
         return {
             id: user.id,

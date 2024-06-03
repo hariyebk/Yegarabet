@@ -23,7 +23,6 @@
     "cloudinary": "^2.2.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
-    "cookies-next": "^4.0.0",
     "flag-icons": "^7.2.2",
     "jose": "^5.4.0",
     "lucide-react": "^0.378.0",
