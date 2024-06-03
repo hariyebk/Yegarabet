@@ -255,3 +255,4 @@ export type IcontextType = {
 export const ASCENDING = "ascending"
 export const DESCENDING = "descending "
 export const PAGE_SIZE = 20
+export const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""

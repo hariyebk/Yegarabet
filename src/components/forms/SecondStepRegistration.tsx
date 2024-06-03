@@ -9,18 +9,20 @@ import { GoPlus } from "react-icons/go";
 import SocialLink from "../small-peices/SocialLink"
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form"
-import userAvatar from "/public/userAvatar.png"
 import { z } from "zod"
 import { SecondStepSchema } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Checkbox } from "../ui/checkbox"
-// import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "../ui/select"
 import ClipLoader from "react-spinners/ClipLoader"
 import { STATE } from "./SignupForm"
 import AvatarUploader from "../AvatarUploader"
+import { SecondStepUpdate } from "@/actions"
+import toast from "react-hot-toast"
+import axios from "axios"
 
 interface Props {
+    state: STATE
     setState: React.Dispatch<React.SetStateAction<STATE>>
 }
 
@@ -48,7 +50,7 @@ const INITIAL_STATE : STATE_TYPE = {
     pplLivingWithError: ""
 }
 
-export default function SecondStepRegistration({setState} : Props) {
+export default function SecondStepRegistration({state, setState} : Props) {
 
     const [allSatate, setAllStates] = useState<STATE_TYPE>(INITIAL_STATE)
 
@@ -110,36 +112,73 @@ export default function SecondStepRegistration({setState} : Props) {
             })
             return
         }
-        const data = {
-            socialLinks: [values.facebook, values.instagram, values.telegram].filter((value) => value !== undefined),
-            numberOfRoommatesNeeded: allSatate.numberOfRoommates ,
-            hasRentedRoom: allSatate.hasRentedRoom === null ? false : allSatate.hasRentedRoom,
-            peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
-            currentRentPrice: allSatate.currentRentPrice ? allSatate.currentRentPrice : null,
-            budget: `${values.budget} birr/month`,
-            image: values.image.length > 0 ? values.image[0] : userAvatar,
-            description: values.description
+
+        let tempSocials = []
+        if(values.facebook?.type && values.facebook.link){
+            tempSocials.push(values.facebook)
         }
-
-        setState((statedata) => {
-            return {...statedata, secondStep: false, thirdStep: true}
+        if(values.instagram?.type && values.instagram.link){
+            tempSocials.push(values.instagram)
+        }
+        if(values.telegram?.type && values.telegram.link){
+            tempSocials.push(values.telegram)
+        }
+        
+        setAllStates((allstates) => {
+            return {...allstates, isLoading: true}
         })
-        // setAllStates((allstates) => {
-        //     return {...allstates, isLoading: true}
-        // })
-        // // TODO: update the user's data
-        // try{
-        // }
-        // catch(error: any){
 
-        // }
-        // finally{
-        //     setAllStates((allstates) => {
-        //         return {...allstates, isLoading: false}
-        //     })
-        // }
+        try{
+
+            const imageData = await uploadStagedFile(values.image.at(0) as File)
+            const data = {
+                socialLinks: tempSocials,
+                numberOfRoommatesNeeded: allSatate.numberOfRoommates ,
+                hasRentedRoom: allSatate.hasRentedRoom === null ? false : allSatate.hasRentedRoom,
+                peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
+                currentRentPrice: allSatate.currentRentPrice ? parseInt(allSatate.currentRentPrice) : null,
+                budget: `${values.budget} birr/month`,
+                image: imageData.imageUrl ? imageData.imageUrl : null,
+                description: values.description,
+                userId: state.userId as string
+            }
+
+            const result = await SecondStepUpdate(data)
+            if(result?.error){
+                return toast.error(result.error)
+            }
+            //  If Everything is good , move to the next step
+            setState((statedata) => {
+                return {...statedata, secondStep: false, thirdStep: true}
+            })
+        }
+        catch(error: any){
+            console.log(error)
+            toast.error("Something went wrong try again")
+        }
+        finally{
+            setAllStates((allstates) => {
+                return {...allstates, isLoading: false}
+            })
+        }
     }
-
+    
+    async function uploadStagedFile(stagedFile: File){
+        if(!stagedFile) return
+        // To send files over HTTP, we need to use a special type of request called a multipart/form-data request. This type of request allows us to send multiple parts, or chunks, of an image or a file in a single request.
+        const form = new FormData()
+        // Injecting our image into the formData. formData is a JavaScript object that represents a set of key-value pairs
+        form.set("file", stagedFile)
+        try{
+            const result = await axios.post("/api/upload", form)
+            return result.data
+        }
+        catch(error: any){
+            return {
+                error
+            }
+        }
+    }
     function handleHideLink({link, type}: {link: number, type: "facebook" | "instagram" | "telegram"}){
         const tempLinkList = allSatate.showLinks.filter((value) => value !== link)
         setAllStates((allstates) => {
@@ -346,14 +385,14 @@ export default function SecondStepRegistration({setState} : Props) {
                                     <span className="text-sm text-red-500 ml-2"> * </span>
                                 </FormLabel>
                                 <FormControl>
-                                    <textarea {...field} className="max-sm:w-full sm:w-[350px] md:w-[400px] max-lg:h-[100px] lg:h-[120px] bg-primary borde rounded-md px-5 py-4 focus-visible:outline-none text-sm text-black" />
+                                    <textarea {...field} disabled={allSatate.isLoading} className="max-sm:w-full sm:w-[350px] md:w-[400px] max-lg:h-[100px] lg:h-[120px] bg-primary borde rounded-md px-5 py-4 focus-visible:outline-none text-sm text-black" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                             )}
                         />
                     </div>
-                    <button type="submit" className="mt-14 w-[200px] bg-button px-3.5 py-2 rounded-md text-base text-black focus-visible:outline-none border-none font-semibold">
+                    <button type="submit" disabled={allSatate.isLoading} className="mt-14 w-[200px] bg-button px-3.5 py-2 rounded-md text-base text-black focus-visible:outline-none border-none font-semibold disabled:cursor-not-allowed">
                     {allSatate.isLoading ? (
                         <ClipLoader
                         color="#ffffff"

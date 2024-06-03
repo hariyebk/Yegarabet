@@ -9,11 +9,19 @@ import { useEffect, useState } from "react"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import ClipLoader from "react-spinners/ClipLoader"
 import toast from "react-hot-toast"
+import { ThirdStepUpdate } from "@/actions"
+import { STATE } from "./SignupForm"
+import { useRouter } from "next/navigation"
 
+interface PreferencesProps {
+    state: STATE,
+    setState: React.Dispatch<React.SetStateAction<STATE>>
+}
 
-export default function Preferences() {
+export default function Preferences({state, setState}: PreferencesProps) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const {push} = useRouter()
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -58,8 +66,27 @@ export default function Preferences() {
     })
 
     async function onSubmit(values: z.infer<typeof  QuestionsSchema>){
-        const data = [values]
-        toast.error("coming soon")
+        const data =  Object.values(values)
+        setIsLoading(true)
+        try{
+            const result = await ThirdStepUpdate({
+                preferences: data,
+                userId: state.userId
+            })
+            if(result?.error){
+                return toast.error(result.error)
+            }
+            else{
+                setIsLoading(false)
+                toast.success("Registration complete")
+                push("/signin")
+            }
+        }
+        catch(error: any){
+            console.log(error)
+            setIsLoading(false)
+            toast.error(error.message)
+        }
     }
 
     return (
@@ -171,7 +198,7 @@ export default function Preferences() {
                     </FormItem>
                     )}
                     />
-                    <button type="submit" className="w-[200px] mt-10 bg-button rounded-md px-4 py-2 text-black focus-visible:outline-none">
+                    <button type="submit" disabled={isLoading} className="w-[200px] mt-10 bg-button rounded-md px-4 py-2 text-black focus-visible:outline-none disabled:cursor-not-allowed">
                     {isLoading ? (
                         <ClipLoader
                         color="#ffffff"

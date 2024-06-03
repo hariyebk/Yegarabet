@@ -1,5 +1,4 @@
 import axios from "axios";
-import { error } from "console";
 
 export async function POST(req: Request) {
     // check if the request method is POST
@@ -22,7 +21,7 @@ export async function POST(req: Request) {
 
     try {
         // making an http request to google to verfiry the recaptcha token
-        const response = await axios.get(
+        const response = await axios.post(
         `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`, {timeout: 5000}
         );
 
