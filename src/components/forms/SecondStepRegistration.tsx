@@ -144,7 +144,7 @@ export default function SecondStepRegistration({state, setState} : Props) {
             }
 
             const result = await SecondStepUpdate(data)
-            if(result?.error){
+            if(result.error){
                 return toast.error(result.error)
             }
             //  If Everything is good , move to the next step

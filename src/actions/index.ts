@@ -1,16 +1,31 @@
 'use server'
 
-import { SignupFormSchema } from "@/lib/validation"
+import { SiginFormSchema, SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
 import bcrypt from "bcrypt"
 import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { SecondStepActionProps } from "@/constants"
 import { encrypt } from "@/utils"
 
+interface SecondStepActionProps {
+    socialLinks: {type: string, link: string}[],
+    numberOfRoommatesNeeded: number | null ,
+    hasRentedRoom: boolean,
+    peopleLivingWith: number | null,
+    currentRentPrice: number | null,
+    budget: string,
+    image: string | null,
+    description: string
+    userId: string
+}
+interface ThirdStepUpdateActionProps {
+    preferences: {question: string, answer: string}[], 
+    userId: string
+}
 
-export async function Login({email, password} : {email: string, password: string}){
+export async function Login(values: z.infer<typeof SiginFormSchema>){
+    const {email, password} = values
     try{
         // Check if the email exists first
         const user = await db.user.findUnique({
@@ -52,7 +67,8 @@ export async function Login({email, password} : {email: string, password: string
         }
     }
 }
-export async function RegisterUser(values: z.infer<typeof SignupFormSchema>) {
+export async function RegisterUser(values: z.infer<typeof SignupFormSchema>){
+
     const {firstName, lastName, email, gender, birthDate, city, profession, password, phoneNumber} = values
     // Check if the email doesn't exist already
     try{
@@ -95,6 +111,7 @@ export async function RegisterUser(values: z.infer<typeof SignupFormSchema>) {
     }
 }
 export async function SecondStepUpdate(values: SecondStepActionProps){
+
     const {userId, socialLinks, numberOfRoommatesNeeded, hasRentedRoom, peopleLivingWith, currentRentPrice, budget, image, description} = values
     try{
         if(!userId){
@@ -117,6 +134,10 @@ export async function SecondStepUpdate(values: SecondStepActionProps){
                 description
             }
         })
+
+        return {
+            message: "successfull"
+        }
     }
     catch(error: any){
         return {
@@ -124,7 +145,7 @@ export async function SecondStepUpdate(values: SecondStepActionProps){
         }
     }
 }
-export async function ThirdStepUpdate({preferences, userId}: {preferences: {question: string, answer: string}[], userId: string}){
+export async function ThirdStepUpdate({preferences, userId}: ThirdStepUpdateActionProps){
     if(!userId){
         return {
             error: "Not Authorized"
@@ -141,12 +162,12 @@ export async function ThirdStepUpdate({preferences, userId}: {preferences: {ques
                 completedRegistration: true
             }
         })
-        // revalidate the find-roommates page to include the current user
-        revalidatePath("/find-roommates")
     }
     catch(error: any){
         return {
             error: error.message
         }
     }
+    // revalidate the find-roommates page to include the current user
+    revalidatePath("/find-roommates")
 }

@@ -44,15 +44,16 @@ export default function Signin() {
             }
             //TODO: UPDATE THE GLOBAL STATE
             toast.success("You have Logged in")
-            push("/find-roommates")
         }
         catch(error: any){
             console.log(error)
-            toast.error(error.message || "Something went wrong")
+                return toast.error(error.message || "Something went wrong")
         }
         finally{
             setIsLoading(false)
         }
+        
+        push("/find-roommates")
     }
     async function handleCaptchaSubmission(token: string | null) {
         try {
