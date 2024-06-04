@@ -42,7 +42,7 @@ export default function SignupForm() {
     const [state, setState] = useState<STATE>(INITIAL_STATE)
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
-    const SIET_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
+    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
 
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),
