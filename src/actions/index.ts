@@ -6,23 +6,8 @@ import * as jose from "jose"
 import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
+import { SecondStepActionProps } from "@/constants"
 
-interface SecondStepActionProps {
-    socialLinks: {type: string, link: string}[],
-    numberOfRoommatesNeeded: number | null ,
-    hasRentedRoom: boolean,
-    peopleLivingWith: number | null,
-    currentRentPrice: number | null,
-    budget: string,
-    image: string | null,
-    description: string
-    userId: string
-}
-
-interface ThirdStepActionProps {
-    preferences: {question: string, answer: string}[],
-    userId: string
-}
 
 export async function Login({email, password} : {email: string, password: string}){
     try{
@@ -55,6 +40,7 @@ export async function Login({email, password} : {email: string, password: string
             value: token,
             httpOnly: true,
             secure: true,
+            sameSite: "lax"
         })
         // returning the signed in user to the client
         return {
@@ -145,7 +131,7 @@ export async function SecondStepUpdate(values: SecondStepActionProps){
         }
     }
 }
-export async function ThirdStepUpdate({preferences, userId}: ThirdStepActionProps){
+export async function ThirdStepUpdate({preferences, userId}: {preferences: {question: string, answer: string}[], userId: string}){
     if(!userId){
         return {
             error: "Not Authorized"

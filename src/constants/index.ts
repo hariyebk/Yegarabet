@@ -255,3 +255,14 @@ export type IcontextType = {
 export const ASCENDING = "ascending"
 export const DESCENDING = "descending "
 export const PAGE_SIZE = 20
+export type SecondStepActionProps = {
+    socialLinks: {type: string, link: string}[],
+    numberOfRoommatesNeeded: number | null ,
+    hasRentedRoom: boolean,
+    peopleLivingWith: number | null,
+    currentRentPrice: number | null,
+    budget: string,
+    image: string | null,
+    description: string
+    userId: string
+}
