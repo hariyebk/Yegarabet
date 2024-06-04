@@ -35,6 +35,7 @@ export async function Login({email, password} : {email: string, password: string
             name: "session",
             value: session,
             httpOnly: true,
+            sameSite: "lax"
         })
         // returning the signed in user to the client
         return {
