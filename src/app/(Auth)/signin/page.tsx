@@ -35,24 +35,21 @@ export default function Signin() {
     async function onSubmit(values: z.infer<typeof SiginFormSchema>){
         setIsLoading(true)
         try{
-            const result = await Login({
-                email: values.email,
-                password: values.password
-            })
+            const result = await Login(values)
             if(result.error){
                 return toast.error(result.error)
             }
+            console.log(result)
             //TODO: UPDATE THE GLOBAL STATE
             toast.success("You have Logged in")
         }
         catch(error: any){
             console.log(error)
-                return toast.error(error.message || "Something went wrong")
+            return toast.error(error.message || "Something went wrong")
         }
         finally{
             setIsLoading(false)
         }
-        
         push("/find-roommates")
     }
     async function handleCaptchaSubmission(token: string | null) {
@@ -68,7 +65,8 @@ export default function Signin() {
                 });
                 setIsVerified(true);
             }
-        } catch (e: any) {
+        } 
+        catch (e: any) {
             setIsVerified(false);
         }
     }
@@ -145,12 +143,12 @@ export default function Signin() {
                             ) : "Sign in" } </button>
                         </form>
                     </Form>
-                    <div className="">
-                        <div className="mt-10 max-md:mt-14 flex items-center gap-3">
+                    <div>
+                        {/* <div className="mt-10 max-md:mt-14 flex items-center gap-3">
                             <hr className="border border-t-slate-700 max-sm:w-[50px] sm:w-[90px]" />
                             <p className="text-primary text-base"> or countinue with </p>
                             <hr className="border border-t-gray-400 max-sm:w-[50px] sm:w-[100px]" />
-                        </div>
+                        </div> */}
                         {/* <div className="mt-10 flex items-start justify-center gap-20">
                             <button onClick={() => handleSocialLogin("github")} disabled={isLoading} className="px-10 py-2 rounded-md border border-main disabled:cursor-not-allowed">
                                 <BsLinkedin className="w-6 h-6 text-blue-500" />

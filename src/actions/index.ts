@@ -3,7 +3,6 @@
 import { SiginFormSchema, SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
 import bcrypt from "bcrypt"
-import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { encrypt } from "@/utils"
@@ -44,14 +43,8 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
                 error: "Invalid email or password"
             }
         }
-        const session = await encrypt({email: user.email, name: user.firstName})
-
-        cookies().set({
-            name: "session",
-            value: session,
-            httpOnly: true,
-            sameSite: "lax"
-        })
+        // Generating a new jwt token and setting it as a cookie
+        await encrypt({email: user.email, name: user.firstName})
         // returning the signed in user to the client
         return {
             id: user.id,
