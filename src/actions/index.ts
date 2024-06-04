@@ -1,4 +1,4 @@
-'use server'
+"use server"
 
 import { SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
@@ -53,7 +53,7 @@ export async function Login({email, password} : {email: string, password: string
     }
     catch(error: any){
         return {
-            error: error.message
+            error: error.message || "Something went wrong"
         }
     }
 }

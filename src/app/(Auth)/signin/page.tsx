@@ -48,7 +48,7 @@ export default function Signin() {
         }
         catch(error: any){
             console.log(error)
-            toast.error(error)
+            toast.error(error.message || "Something went wrong")
         }
         finally{
             setIsLoading(false)
