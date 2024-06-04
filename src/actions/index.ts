@@ -18,6 +18,7 @@ interface SecondStepActionProps {
     description: string
     userId: string
 }
+
 interface ThirdStepUpdateActionProps {
     preferences: {question: string, answer: string}[], 
     userId: string

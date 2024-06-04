@@ -36,10 +36,10 @@ export default function Signin() {
         setIsLoading(true)
         try{
             const result = await Login(values)
+            console.log(result)
             if(result.error){
                 return toast.error(result.error)
             }
-            console.log(result)
             //TODO: UPDATE THE GLOBAL STATE
             toast.success("You have Logged in")
         }
