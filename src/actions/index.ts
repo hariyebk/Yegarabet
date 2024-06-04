@@ -2,6 +2,7 @@
 
 import { SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
+import bcrypt from "bcrypt"
 import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
@@ -22,8 +23,6 @@ export async function Login({email, password} : {email: string, password: string
                 error: "Invalid email or password"
             }
         }
-        // Check if the password macthes with the hashedPassword
-        const bcrypt = require("bcrypt");
         const passwordsMatch = await bcrypt.compare(password, user.hashedPassword)
         if(!passwordsMatch){
             return {
@@ -66,8 +65,6 @@ export async function RegisterUser(values: z.infer<typeof SignupFormSchema>) {
                 error: "User with the provided email already exists"
             }
         }
-        // hash the password
-        const bcrypt = require("bcrypt")
         const hashedPassword = await bcrypt.hash(password, 12)
         // create the new user
         const newUser = await db.user.create({
