@@ -9,7 +9,7 @@ import { useRef, useState } from "react"
 import Link from "next/link"
 import { Select, SelectTrigger, SelectItem, SelectValue, SelectContent } from "../ui/select"
 import { GoEye, GoEyeClosed } from "react-icons/go"
-import { SITE_KEY, cities } from "@/constants"
+import { cities } from "@/constants"
 import SecondStepRegistration from "./SecondStepRegistration"
 import Preferences from "./Preferences"
 import ReCAPTCHA from "react-google-recaptcha"
@@ -42,6 +42,7 @@ export default function SignupForm() {
     const [state, setState] = useState<STATE>(INITIAL_STATE)
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const SIET_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
 
     const form = useForm<z.infer<typeof  SignupFormSchema>>({
         resolver: zodResolver( SignupFormSchema),

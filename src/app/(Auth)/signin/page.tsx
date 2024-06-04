@@ -13,7 +13,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { Login} from "@/actions";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SITE_KEY } from "@/constants";
+
 
 export default function Signin() {
 
@@ -22,7 +22,8 @@ export default function Signin() {
     const [isVerified, setIsVerified] = useState<boolean>(false)
     const recaptchaRef = useRef<ReCAPTCHA>(null)
     const {push} = useRouter()
-
+    const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""
+    
     const form = useForm<z.infer<typeof SiginFormSchema>>({
         resolver: zodResolver(SiginFormSchema),
         defaultValues: {
