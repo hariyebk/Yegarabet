@@ -1,12 +1,12 @@
-"use server"
+'use server'
 
 import { SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
-import * as jose from "jose"
 import {cookies} from "next/headers"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { SecondStepActionProps } from "@/constants"
+import { encrypt } from "@/utils"
 
 
 export async function Login({email, password} : {email: string, password: string}){
@@ -30,17 +30,12 @@ export async function Login({email, password} : {email: string, password: string
                 error: "Invalid email or password"
             }
         }
-        // Encypting out JWT secret key
-        const secret = new TextEncoder().encode(process.env.JWT_SECRET)
-        // Generating the JWT token using jose
-        const token = await new jose.SignJWT({email: user.email}).setProtectedHeader({alg: "HS256"}).sign(secret)
-        // set the jwt token as a cookie
+        const session = await encrypt({email: user.email, name: user.firstName})
+
         cookies().set({
-            name: "jwt",
-            value: token,
+            name: "session",
+            value: session,
             httpOnly: true,
-            secure: true,
-            sameSite: "lax"
         })
         // returning the signed in user to the client
         return {
@@ -53,7 +48,7 @@ export async function Login({email, password} : {email: string, password: string
     }
     catch(error: any){
         return {
-            error: error.message || "Something went wrong"
+            error: error.message
         }
     }
 }
