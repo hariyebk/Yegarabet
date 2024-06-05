@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { encrypt } from "@/utils"
+import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
 
 interface SecondStepActionProps {
     socialLinks: {type: string, link: string}[],
@@ -28,7 +28,7 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
     const {email, password} = values
     try{
         // Check if the email exists first
-        const user = await db.user.findUnique({
+        const user = await db.user.findFirst({
             where: {
                 email
             }
@@ -38,7 +38,7 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
                 error: "Invalid email or password"
             }
         }
-        const passwordsMatch = await bcrypt.compare(password, user.hashedPassword)
+        const passwordsMatch = await CheckIfPasswordsMatch(password, user.hashedPassword)
         if(!passwordsMatch){
             return {
                 error: "Invalid email or password"
@@ -66,7 +66,7 @@ export async function RegisterUser(values: z.infer<typeof SignupFormSchema>){
     const {firstName, lastName, email, gender, birthDate, city, profession, password, phoneNumber} = values
     // Check if the email doesn't exist already
     try{
-        const isThereUser = await db.user.findUnique({
+        const isThereUser = await db.user.findFirst({
             where: {
                 email
             }
@@ -76,7 +76,7 @@ export async function RegisterUser(values: z.infer<typeof SignupFormSchema>){
                 error: "User with the provided email already exists"
             }
         }
-        const hashedPassword = await bcrypt.hash(password, 12)
+        const hashedPassword = await HashPassword(password)
         // create the new user
         const newUser = await db.user.create({
             data: {

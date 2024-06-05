@@ -36,12 +36,12 @@ export default function Signin() {
         setIsLoading(true)
         try{
             const result = await Login(values)
-            console.log(result)
             if(result.error){
                 return toast.error(result.error)
             }
             //TODO: UPDATE THE GLOBAL STATE
             toast.success("You have Logged in")
+            push("/find-roommates")
         }
         catch(error: any){
             console.log(error)
@@ -50,7 +50,6 @@ export default function Signin() {
         finally{
             setIsLoading(false)
         }
-        push("/find-roommates")
     }
     async function handleCaptchaSubmission(token: string | null) {
         try {
