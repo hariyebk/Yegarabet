@@ -2,7 +2,6 @@
 
 import { SiginFormSchema, SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
-import bcrypt from "bcrypt"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
