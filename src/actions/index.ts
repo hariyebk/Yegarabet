@@ -61,7 +61,6 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
     }
 }
 export async function RegisterUser(values: z.infer<typeof SignupFormSchema>){
-
     const {firstName, lastName, email, gender, birthDate, city, profession, password, phoneNumber} = values
     // Check if the email doesn't exist already
     try{

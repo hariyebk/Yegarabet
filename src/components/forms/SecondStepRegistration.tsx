@@ -130,7 +130,10 @@ export default function SecondStepRegistration({state, setState} : Props) {
 
         try{
 
-            const imageData = await uploadStagedFile(values.image.at(0) as File)
+            let imageData
+            if(values.image){
+                imageData = await uploadStagedFile(values?.image.at(0) as File)
+            }
             const data = {
                 socialLinks: tempSocials,
                 numberOfRoommatesNeeded: allSatate.numberOfRoommates ,
@@ -138,7 +141,7 @@ export default function SecondStepRegistration({state, setState} : Props) {
                 peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
                 currentRentPrice: allSatate.currentRentPrice ? parseInt(allSatate.currentRentPrice) : null,
                 budget: `${values.budget} birr/month`,
-                image: imageData.imageUrl ? imageData.imageUrl : null,
+                image: imageData && imageData?.imageUrl ? imageData.imageUrl : null,
                 description: values.description,
                 userId: state.userId as string
             }
@@ -154,7 +157,7 @@ export default function SecondStepRegistration({state, setState} : Props) {
         }
         catch(error: any){
             console.log(error)
-            toast.error("Something went wrong try again")
+            toast.error(error)
         }
         finally{
             setAllStates((allstates) => {

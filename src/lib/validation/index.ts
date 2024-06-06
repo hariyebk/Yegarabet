@@ -12,7 +12,7 @@ export const SignupFormSchema = z.object({
     gender: z.string().min(1, {message: "you didn't select your gender"}),
     birthDate: z.string().min(1, {message: "birth date is required"}),
     phoneNumber: z.string().min(9, {message: "invalid phone number"}).max(9, {message: "remove 0 at the start"}).regex(/^[0-9]+$/),
-    city: z.string().min(1, {message: "city is required"}).max(10, {message: "city is too long"}),
+    city: z.string().min(1, {message: "city is required"}),
     profession: z.string().min(1, {message: "profession is required"}).max(25, {message: "professtion is too long"}),
     password: z.string().min(1, {message: "password is required"}),
     passwordConfirm: z.string().min(1, {message: "please re-enter your password here"}),
@@ -44,7 +44,7 @@ export const SecondStepSchema = z.object({
     instagram: z.object({type: z.string(), link: z.string()}).optional(),
     telegram: z.object({type: z.string(), link: z.string()}).optional(),
     budget: z.string().min(1, {message: "budget is required"}).regex(/^[\d,]+$/),
-    image: z.custom<File[]>(),
+    image: z.custom<File[]>().optional(),
     description: z.string().min(1, {message: "this field is required"})
 }).refine(
     (value) => {

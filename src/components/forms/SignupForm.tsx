@@ -28,9 +28,9 @@ export type STATE = {
 }
 
 const INITIAL_STATE : STATE = {
-    firstStep: true,
+    firstStep: false,
     secondStep: false,
-    thirdStep: false,
+    thirdStep: true,
     isLoading: false,
     showPassword: false,
     showConfirmPassword: false,
@@ -87,10 +87,6 @@ export default function SignupForm() {
             setState((statevalues) => {
                 return {...statevalues, userId: result.userId as string}
             })
-            // update the loading state to false
-            setState((statevalue) => {
-                return {...statevalue, isLoading: false}
-            })
             // show the user the next page
             setState((statevalues) => {
                 return {...statevalues, firstStep: false, secondStep: true}
@@ -99,6 +95,11 @@ export default function SignupForm() {
         catch(error: any){
             console.log(error)
             toast.error(error)
+        }
+        finally{
+            setState((statevalue) => {
+                return {...statevalue, isLoading: false}
+            })
         }
     }
     async function handleCaptchaSubmission(token: string | null) {
@@ -378,7 +379,7 @@ export default function SignupForm() {
                                 style={{transform:"scale(0.76)", transformOrigin:"5 5", width: "250px", height: "25px",}}
                             />
                         </div>
-                        <button type="submit" disabled={state.isLoading} className="bg-button max-sm:w-[230px] sm:w-full mt-16 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none disabled:cursor-not-allowed">
+                        <button type="submit" disabled={!isVerified || state.isLoading} className="bg-button max-sm:w-[230px] sm:w-full mt-16 h-auto px-4 py-2 rounded-md text-black font-semibold focus-visible:outline-none border-none disabled:cursor-not-allowed">
                             {state.isLoading ?
                             <ClipLoader
                             color="#ffffff"

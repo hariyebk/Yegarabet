@@ -23,7 +23,7 @@ export default function Question({field, fieldChange, answers}: Props) {
                             <Checkbox checked={field.answer === answer} onClick={() => fieldChange({
                                 question: field.question,
                                 answer: field.answer === answer ? "" : answer
-                            })} className="focus-visible:outline-none focus:border-none focus-visible:ring-0" />
+                            })} className="focus-visible:outline-none focus-visible:ring-0" />
                             <p> {answer} </p>
                         </div>
                     )

@@ -198,7 +198,7 @@ export default function Preferences({state, setState}: PreferencesProps) {
                     </FormItem>
                     )}
                     />
-                    <button type="submit" disabled={isLoading} className="w-[200px] mt-10 bg-button rounded-md px-4 py-2 text-black focus-visible:outline-none disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isLoading} className="w-[200px] h-[45px] mt-10 bg-button rounded-md flex items-center justify-center text-black focus-visible:outline-none disabled:cursor-not-allowed">
                     {isLoading ? (
                         <ClipLoader
                         color="#ffffff"
