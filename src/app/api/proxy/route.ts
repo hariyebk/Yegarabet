@@ -2,7 +2,7 @@ import { UploadToCloudinary } from "@/actions";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: Request, res: Response) {
     // check if the request method is POST
     if (req.method !== "POST") {
         return new Response(JSON.stringify({ message: "Only POST requests allowed" }),
@@ -47,14 +47,15 @@ export async function POST(req: Request) {
         }
         // A function to delay the execution because we need to Wait for the model to finish processing the image, then making a request to get the results
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-        // wait for 35 seconds
-        await delay(35000)
+        // wait for 45 seconds
+        await delay(45000)
         // get the prediction result
         const predictionResult = await axios.get(`https://api.replicate.com/v1/predictions/${predictionId}`, {
             headers: {
                 "Authorization": `Bearer ${REPLICATE_API_TOKEN}`,
             }
         })
+        console.log(predictionResult.data)
         const output = predictionResult.data.output
         // If we didn't get an output
         if(!output || output.length === 0){
