@@ -1,7 +1,9 @@
 "use client"
 
 import { IcontextType } from "@/constants"
-import { createContext, useState } from "react"
+import { getSession } from "@/utils"
+import { createContext, useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 interface AuthProviderProps {
     children: React.ReactNode

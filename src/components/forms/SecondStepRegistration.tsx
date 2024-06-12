@@ -17,7 +17,7 @@ import { Checkbox } from "../ui/checkbox"
 import ClipLoader from "react-spinners/ClipLoader"
 import { STATE } from "./SignupForm"
 import AvatarUploader from "../AvatarUploader"
-import { SecondStepUpdate } from "@/actions"
+import { SecondStepUpdate, UploadToCloudinary } from "@/actions"
 import toast from "react-hot-toast"
 import axios from "axios"
 
@@ -141,7 +141,7 @@ export default function SecondStepRegistration({state, setState} : Props) {
                 peopleLivingWith: allSatate.hasRentedRoom ? parseInt(allSatate.pplLivingWith) : null,
                 currentRentPrice: allSatate.currentRentPrice ? parseInt(allSatate.currentRentPrice) : null,
                 budget: `${values.budget} birr/month`,
-                image: imageData && imageData?.imageUrl ? imageData.imageUrl : null,
+                image: imageData ? imageData : null,
                 description: values.description,
                 userId: state.userId as string
             }
@@ -173,13 +173,16 @@ export default function SecondStepRegistration({state, setState} : Props) {
         // Injecting our image into the formData. formData is a JavaScript object that represents a set of key-value pairs
         form.set("file", stagedFile)
         try{
-            const result = await axios.post("/api/upload", form)
-            return result.data
+            const result = await UploadToCloudinary(form)
+            if(result.error){
+                return toast.error(result.error)
+            }
+            else{
+                return result.imageUrl
+            }
         }
         catch(error: any){
-            return {
-                error
-            }
+            return null
         }
     }
     function handleHideLink({link, type}: {link: number, type: "facebook" | "instagram" | "telegram"}){

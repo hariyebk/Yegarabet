@@ -5,6 +5,7 @@ import { db } from "@/lib/db"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
+import { cloudinary } from "@/lib/Cloudinary/config"
 
 interface SecondStepActionProps {
     socialLinks: {type: string, link: string}[],
@@ -162,4 +163,41 @@ export async function ThirdStepUpdate({preferences, userId}: ThirdStepUpdateActi
     }
     // revalidate the find-roommates page to include the current user
     revalidatePath("/find-roommates")
+}
+export async function GetCurrentUser(){
+    
+    
+}
+export async function UploadToCloudinary(formData: FormData) {
+    try{
+        const file =  formData.get("file") as File
+        const fileBuffer = await file.arrayBuffer()
+        const mimeType = file.type;
+        const encoding = "base64";
+        const base64Data = Buffer.from(fileBuffer).toString("base64");
+        // constructing the fileURI for Cloudinary
+        const fileURI = "data:" + mimeType + ";" + encoding + "," + base64Data;
+        // Uploading our image into cloudinary
+        const result = await cloudinary.uploader.upload(fileURI, {
+            invalidate: true,
+            resource_type: "auto",
+            filename_override: file.name,
+            folder: "yegarabet",
+            use_filename: true,
+        })
+        // If the image uploading process failed
+        if(!result.secure_url) {
+            return {
+                error: "failed to upload to cloudinary"
+            }
+        }
+        return {
+            imageUrl: result.secure_url
+        }
+    }
+    catch(error: any){
+        return {
+            error: "Something went wrong"
+        }
+    }
 }

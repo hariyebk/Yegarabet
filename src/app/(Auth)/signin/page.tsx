@@ -131,7 +131,7 @@ export default function Signin() {
                                     style={{transform:"scale(0.82)", transformOrigin:"0 0", width: "250px", height: "25px",}}
                                 />
                             </div>
-                            <button type="submit" disabled={!isVerified} className="mt-16 max-sm:w-[250px] sm:w-[350px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold disabled:cursor-not-allowed"> {isLoading ? (
+                            <button type="submit" disabled={!isVerified || isLoading} className="mt-16 max-sm:w-[250px] sm:w-[350px] bg-button px-5 py-2 rounded-sm text-black uppercase font-semibold disabled:cursor-not-allowed"> {isLoading ? (
                                 <ClipLoader
                                 color="#ffffff"
                                 loading={true}
