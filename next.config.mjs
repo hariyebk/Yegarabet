@@ -8,7 +8,16 @@ const nextConfig = {
     async headers() {
         return [
             {
-                source: '/api/proxy',
+                source: '/api/create-prediction',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
+            {
+                source: '/api/get-prediction',
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',

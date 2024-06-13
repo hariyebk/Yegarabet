@@ -1,6 +1,5 @@
 import { UploadToCloudinary } from "@/actions";
 import axios from "axios";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     // check if the request method is POST
@@ -13,8 +12,8 @@ export async function POST(req: Request) {
         // Recieving the image 
         const formData = await req.formData()
         const prompt = formData.get("prompt")
-        const token = formData.get("token")
-        const REPLICATE_API_TOKEN = token ? token : process.env.REPLICATE_API_TOKEN as string
+        const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN as string
+        // Host the image on cloudinary first
         const hostedImageUrl = await UploadToCloudinary(formData)
         if(hostedImageUrl.error){
             return new Response(JSON.stringify({ message: hostedImageUrl.error }), {
@@ -45,28 +44,10 @@ export async function POST(req: Request) {
                 status: 401,
             });
         }
-        // A function to delay the execution because we need to Wait for the model to finish processing the image, then making a request to get the results
-        const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-        // wait for 80 seconds
-        await delay(85000)
-        // get the prediction result
-        const predictionResult = await axios.get(`https://api.replicate.com/v1/predictions/${predictionId}`, {
-            headers: {
-                "Authorization": `Bearer ${REPLICATE_API_TOKEN}`,
-            }
-        })
-        const output = predictionResult.data.output
-        // If we didn't get an output
-        if(output.length === 0){
-            return new Response(JSON.stringify({ message: "Prediction has failed" }), {
-                status: 500,
-            });
-        }
         // send the results to the user
-        return NextResponse.json({
-            message: "success",
-            outputs: output
-        })
+        return new Response(JSON.stringify({
+            predictionId
+        }))
     }
     catch(error: any){
         return new Response(JSON.stringify({ message: error.message || "Internal Server Error" }), {
