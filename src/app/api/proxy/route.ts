@@ -48,7 +48,7 @@ export async function POST(req: Request) {
         // A function to delay the execution because we need to Wait for the model to finish processing the image, then making a request to get the results
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
         // wait for 80 seconds
-        await delay(80000)
+        await delay(85000)
         // get the prediction result
         const predictionResult = await axios.get(`https://api.replicate.com/v1/predictions/${predictionId}`, {
             headers: {
