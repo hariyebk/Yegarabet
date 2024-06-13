@@ -21,7 +21,6 @@ export async function POST(req: Request) {
                 status: 500,
             });
         }
-        console.log("before api request")
         // create a prediction
         const response = await axios.post("https://api.replicate.com/v1/predictions",
         {
@@ -40,7 +39,6 @@ export async function POST(req: Request) {
             }
         })
         const predictionId = response.data.id
-        console.log(predictionId)
         // If there is no prediction created
         if(!predictionId){
             return new Response(JSON.stringify({ message: "Failed to verity" }), {
