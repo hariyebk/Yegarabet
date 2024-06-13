@@ -25,6 +25,15 @@ const nextConfig = {
                     },
                 ]
             },
+            {
+                source: '/api/verifyToken',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
         ]
     },
 };

@@ -1,11 +1,12 @@
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     // check if the request method is POST
     if (req.method !== "POST") {
-        return new Response(JSON.stringify({ message: "Only POST requests allowed" }),
-        { status: 405 },
-        );
+        return NextResponse.json({
+            error: "Only POST requests allowed"
+        })
     }
      // parsing the request body
     const data = await req.json()
@@ -18,21 +19,23 @@ export async function POST(req: Request) {
                 "Authorization": `Bearer ${REPLICATE_API_TOKEN}`,
             }
         })
-        const outputs = predictionResult.data.output
+
+        const data = predictionResult.data
+        const outputs = data.output
         // If we didn't get an output
         if(outputs.length === 0){
-            return new Response(JSON.stringify({ message: "Prediction has failed" }), {
-                status: 500,
-            });
+            return NextResponse.json({
+                error: "Prediction has failed"
+            })
         }
         // send the results to the user
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             outputs
-        }))
+        })
     }
     catch(error: any){
-        return new Response(JSON.stringify({ message: error.message || "Internal Server Error" }), {
-            status: 500,
-        });
+        return NextResponse.json({ 
+            error: "slow internet connection."
+        })
     }
 }

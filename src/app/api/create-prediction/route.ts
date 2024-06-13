@@ -1,12 +1,13 @@
 import { UploadToCloudinary } from "@/actions";
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     // check if the request method is POST
     if (req.method !== "POST") {
-        return new Response(JSON.stringify({ message: "Only POST requests allowed" }),
-        { status: 405 },
-        );
+        return NextResponse.json({
+            error: "Only POST requests allowed"
+        })
     }
     try{
         // Recieving the image 
@@ -16,9 +17,9 @@ export async function POST(req: Request) {
         // Host the image on cloudinary first
         const hostedImageUrl = await UploadToCloudinary(formData)
         if(hostedImageUrl.error){
-            return new Response(JSON.stringify({ message: hostedImageUrl.error }), {
-                status: 500,
-            });
+            return NextResponse.json({
+                error: hostedImageUrl.error
+            })
         }
         // create a prediction
         const response = await axios.post("https://api.replicate.com/v1/predictions",
@@ -37,21 +38,17 @@ export async function POST(req: Request) {
                 "Content-Type": "application/json"
             }
         })
-        const predictionId = response.data.id
-        // If there is no prediction created
-        if(!predictionId){
-            return new Response(JSON.stringify({ message: "Failed to verity" }), {
-                status: 401,
-            });
-        }
+
+        const data = response.data
+        const predictionId = data.id
         // send the results to the user
-        return new Response(JSON.stringify({
+        return NextResponse.json({
             predictionId
-        }))
+        })
     }
     catch(error: any){
-        return new Response(JSON.stringify({ message: error.message || "Internal Server Error" }), {
-            status: 500,
-        });
+        return NextResponse.json({
+            error: error.message
+        })
     }
 }
