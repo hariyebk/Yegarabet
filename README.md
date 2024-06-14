@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Yegarabet: Find Your Perfect Roommate Match
+=============================================
 
-## Getting Started
+**Share a Home, Save Your Money**
 
-First, run the development server:
+Are you tired of bearing the financial burden of living alone? Do you want to find a compatible roommate to share expenses and enjoy a comfortable living environment? Look no further Yegarabet, a web app designed to connect individuals looking for roommates.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**The Problem**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Living alone can be expensive, especially for young adults. The cost of rent, utilities, and other expenses can be overwhelming. But what if you could split these costs with someone who shares your values and lifestyle?
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**The Solution**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Yegarabet is here to help! It is a platform designed to connect individuals who want to share rooms and expenses, making it easier to find a compatible roommate. With Yegarabet, you can:
 
-## Learn More
+* Significantly cut down on living expenses
+* Find a roommate who shares your values and lifestyle
 
-To learn more about Next.js, take a look at the following resources:
+**Current Status**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Yegarabet is currently in active development. Stay tuned for updates and be one of the first to experience the benefits of Yegarabet!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+**License**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Yegarabet is licensed under the MIT License. See `LICENSE` for details.
