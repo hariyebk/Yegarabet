@@ -255,3 +255,17 @@ export type IcontextType = {
 export const ASCENDING = "ascending"
 export const DESCENDING = "descending "
 export const PAGE_SIZE = 20
+export const INFO_WE_COLLECT = [
+    {
+        title: "Registration Information",
+        description: "When you create an account on our platform, we collect your name, email address, password, and other information you provide during the registration process."
+    },
+    {
+        title: "",
+        description: ""
+    },
+    {
+        title: "",
+        description: ""
+    }
+]

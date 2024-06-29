@@ -13,7 +13,14 @@ export async function POST(req: Request) {
         // Recieving the image 
         const formData = await req.formData()
         const prompt = formData.get("prompt")
-        const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN as string
+        const negativePrompt = formData.get("negative_prompt")
+        const width = formData.get("width") as string
+        const height = formData.get("height") as string
+        const steps = formData.get("steps") as string
+        const seed = formData.get("seed") as string
+        const strength = formData.get("strength") as string
+        const token = formData.get("token")
+        const REPLICATE_API_TOKEN = token ? token : process.env.REPLICATE_API_TOKEN as string
         // Host the image on cloudinary first
         const hostedImageUrl = await UploadToCloudinary(formData)
         if(hostedImageUrl.error){
@@ -28,7 +35,12 @@ export async function POST(req: Request) {
             "input": {
                 "image": `${hostedImageUrl.imageUrl}`,
                 "prompt": `${prompt}`,
-                "prompt_strength": 4.5,
+                "negative_prompt": negativePrompt,
+                "prompt_strength": parseFloat(strength),
+                "width": parseInt(width),
+                "height": parseInt(height),
+                "steps": parseInt(steps),
+                "seed": parseInt(seed),
                 "instant_id_strength": 0.7
             }
         },
