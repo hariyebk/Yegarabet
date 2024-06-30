@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         const data = await req.json()
         const {token} = data
         // check if token is valid
-        const response = await axios.post("https://api.replicate.com/v1/account",
+        const response = await axios.get("https://api.replicate.com/v1/account",
         {
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -26,8 +26,14 @@ export async function POST(req: Request) {
                 error: "Invalid API token"
             })
         }
+        else{
+            return NextResponse.json({
+                message: "Verified token"
+            })
+        }
     }
     catch(error: any){
+        console.log(error)
         return NextResponse.json({
             error: "Invalid API token"
         })
