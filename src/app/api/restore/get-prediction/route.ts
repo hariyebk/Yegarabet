@@ -21,22 +21,21 @@ export async function POST(req: Request) {
         })
 
         const data = predictionResult.data
-        const outputs = data.output
-        
+        const output = data.output
         // If we didn't get an output
-        if(outputs.length === 0){
+        if(!output){
             return NextResponse.json({
-                error: "Prediction has failed"
+                error: "Prediction has failed. try again"
             })
         }
-        // send the results to the user
+        // send the result to the user
         return NextResponse.json({
-            outputs
+            output
         })
     }
     catch(error: any){
         return NextResponse.json({ 
-            error: "slow internet connection."
+            error: error.message || "slow internet connection."
         })
     }
 }

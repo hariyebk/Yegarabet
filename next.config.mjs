@@ -34,6 +34,33 @@ const nextConfig = {
                     },
                 ]
             },
+            {
+                source: '/api/restore/create-prediction',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
+            {
+                source: '/api/restore/get-prediction',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
+            {
+                source: '/api/restore/verifyToken',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
         ]
     },
 };

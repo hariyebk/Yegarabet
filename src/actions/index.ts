@@ -196,6 +196,7 @@ export async function UploadToCloudinary(formData: FormData) {
         }
     }
     catch(error: any){
+        console.log(error)
         return {
             error: "Something went wrong"
         }
