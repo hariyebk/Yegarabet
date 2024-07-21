@@ -19,7 +19,7 @@ export async function POST(req: Request) {
         const token = formData.get("token")
         const REPLICATE_API_TOKEN = token ? token : process.env.REPLICATE_API_TOKEN as string
         const upscaleValue = Boolean(upscale) ? parseInt(upscale) : 2
-        const fidelityValue = Boolean(fidelity) ? parseInt(fidelity) : 0.1
+        const fidelityValue = Boolean(fidelity) ? parseInt(fidelity) : 0.5
         const enhanceValue = enhance ? enhance === "true" ? true : false : true
         const upsampleValue = upsample ? upsample === "true" ? true : false : true
         // Host the image on cloudinary first
