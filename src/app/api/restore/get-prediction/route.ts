@@ -34,6 +34,7 @@ export async function POST(req: Request) {
         })
     }
     catch(error: any){
+        console.log(error.message)
         return NextResponse.json({ 
             error: error.message || "slow internet connection."
         })

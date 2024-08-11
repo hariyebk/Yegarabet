@@ -1,4 +1,4 @@
-import { UploadToCloudinary } from "@/actions";
+import { UploadToCloudinary } from "../../../../actions";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -18,7 +18,6 @@ export async function POST(req: Request) {
         const upsample = formData.get("upsample") as string
         const token = formData.get("token")
         const REPLICATE_API_TOKEN = token ? token : process.env.REPLICATE_API_TOKEN as string
-        console.log(fidelity, upscale, upsample, enhance)
         const upscaleValue = Boolean(upscale) ? parseInt(upscale) : 2
         const fidelityValue = Boolean(fidelity) ? parseInt(fidelity) : 0.5
         const enhanceValue = enhance ? enhance === "true" ? true : false : true

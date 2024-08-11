@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
-import { cloudinary } from "@/lib/Cloudinary/config"
+import { cloudinary } from "../lib/Cloudinary/config"
 
 interface SecondStepActionProps {
     socialLinks: {type: string, link: string}[],

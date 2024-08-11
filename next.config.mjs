@@ -61,6 +61,24 @@ const nextConfig = {
                     },
                 ]
             },
+            {
+                source: '/api/convert/create-job',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
+            {
+                source: '/api/convert/get-job',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: '*',
+                    },
+                ]
+            },
         ]
     },
 };
