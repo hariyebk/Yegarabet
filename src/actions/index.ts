@@ -6,6 +6,7 @@ import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
 import { cloudinary } from "../lib/Cloudinary/config"
+import {Readable} from "stream"
 
 interface SecondStepActionProps {
     socialLinks: {type: string, link: string}[],
@@ -175,9 +176,7 @@ export async function UploadToCloudinary(formData: FormData) {
         const mimeType = file.type;
         const encoding = "base64";
         const base64Data = Buffer.from(fileBuffer).toString("base64");
-        // constructing the fileURI for Cloudinary
         const fileURI = "data:" + mimeType + ";" + encoding + "," + base64Data;
-        // Uploading our image into cloudinary
         const result = await cloudinary.uploader.upload(fileURI, {
             invalidate: true,
             resource_type: "auto",
@@ -196,9 +195,44 @@ export async function UploadToCloudinary(formData: FormData) {
         }
     }
     catch(error: any){
-        console.log(error)
+        console.log(`cloudinary`, error)
         return {
             error: "Something went wrong"
         }
     }
 }
+// export async function UploadPdfToCloudinary(formData: FormData){
+//     const file = formData.get("file") as File;
+//     if (!file) {
+//         return { error: "No file provided" };
+//     }
+//     try {
+//         const buffer = Buffer.from(await file.arrayBuffer());
+//         const stream = Readable.from(buffer);
+
+//         return new Promise((resolve, reject) => {
+//         const uploadStream = cloudinary.uploader.upload_stream({
+//                 resource_type: "auto",
+//                 filename_override: file.name,
+//                 folder: "yegarabet",
+//                 use_filename: true,
+//             }, (error, result) => {
+//             if (error) {
+//                 reject({ error: "Failed to upload to Cloudinary" });
+//             } 
+//             else if (result && result.secure_url) {
+//                 resolve({ imageUrl: result.secure_url });
+//             } 
+//             else {
+//                 reject({ error: "Failed to get secure URL from Cloudinary" });
+//             }
+//             }
+//         );
+
+//         stream.pipe(uploadStream);
+//         });
+//     } catch (error) {
+//         console.error("Error during file upload:", error);
+//         return { error: "An error occurred during file upload" };
+//     }
+// }
