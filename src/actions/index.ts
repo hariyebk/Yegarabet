@@ -201,38 +201,3 @@ export async function UploadToCloudinary(formData: FormData) {
         }
     }
 }
-// export async function UploadPdfToCloudinary(formData: FormData){
-//     const file = formData.get("file") as File;
-//     if (!file) {
-//         return { error: "No file provided" };
-//     }
-//     try {
-//         const buffer = Buffer.from(await file.arrayBuffer());
-//         const stream = Readable.from(buffer);
-
-//         return new Promise((resolve, reject) => {
-//         const uploadStream = cloudinary.uploader.upload_stream({
-//                 resource_type: "auto",
-//                 filename_override: file.name,
-//                 folder: "yegarabet",
-//                 use_filename: true,
-//             }, (error, result) => {
-//             if (error) {
-//                 reject({ error: "Failed to upload to Cloudinary" });
-//             } 
-//             else if (result && result.secure_url) {
-//                 resolve({ imageUrl: result.secure_url });
-//             } 
-//             else {
-//                 reject({ error: "Failed to get secure URL from Cloudinary" });
-//             }
-//             }
-//         );
-
-//         stream.pipe(uploadStream);
-//         });
-//     } catch (error) {
-//         console.error("Error during file upload:", error);
-//         return { error: "An error occurred during file upload" };
-//     }
-// }

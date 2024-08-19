@@ -62,16 +62,7 @@ const nextConfig = {
                 ]
             },
             {
-                source: '/api/convert/create-job',
-                headers: [
-                    {
-                        key: 'Access-Control-Allow-Origin',
-                        value: '*',
-                    },
-                ]
-            },
-            {
-                source: '/api/convert/get-job',
+                source: '/api/convert',
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
@@ -81,6 +72,17 @@ const nextConfig = {
             },
         ]
     },
+    experimental: {
+        serverComponentsExternalPackages: [
+            'pdf-img-convert',
+        ],
+        outputFileTracingIncludes: {
+            '/': [
+                './node_modules/pdf-img-convert/node_modules/pdfjs-dist/legacy/build/pdf.worker.js',
+                './node_modules/pdf-img-convert/node_modules/pdfjs-dist/legacy/build/pdf.js',
+            ],
+        },
+    }
 };
 
 export default nextConfig;

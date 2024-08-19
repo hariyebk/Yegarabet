@@ -82,3 +82,52 @@ export async function POST(req: Request) {
         })
     }
 }
+
+/*
+
+const baseDir = process.cwd()
+            // Create a temporary directory
+            const tempDir = path.join(baseDir, 'tmp', `pdf`)
+
+            fs.mkdirSync(tempDir, { recursive: true });
+
+            const pdfPath = path.join(tempDir, 'temp.pdf')
+            const outputDir = path.join(tempDir, 'output_images')
+            fs.mkdirSync(outputDir);
+    
+            fs.writeFileSync(pdfPath, inputBuffer);
+
+            // Convert PDF to images and store them inside outputDir directory
+            
+            const document = await pdf(pdfPath, { scale: 3 })
+            for(let i = 0; i < document.length; i++){
+                const pageBuffer = await document.getPage(i+1)
+                fs.writeFile(`${outputDir}/page-${i + 1}.${outputFormat}`, pageBuffer, function (error) {
+                    if (error){ 
+                        console.error("Error: " + error)
+                    } 
+                    else{
+                        console.log(`File saved`)
+                    }
+                })
+            }
+            const zip = new JSZip();
+
+            // Read the images from the output directory and add them to the zip
+            const files = fs.readdirSync(outputDir);
+
+            files.forEach(file => {
+                const filePath = path.join(outputDir, file)
+                const imageBuffer = fs.readFileSync(filePath)
+                zip.file(file, imageBuffer)
+            })
+            
+            // generate the zip file
+            const zipBuffer = await zip.generateAsync({ type: 'nodebuffer' })
+
+            // Clean up the temp files
+            fs.unlinkSync(pdfPath)
+            files.forEach(file => fs.unlinkSync(path.join(outputDir, file)))
+            fs.rmdirSync(outputDir)
+            fs.rmdirSync(tempDir)
+*/
