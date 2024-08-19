@@ -47,15 +47,19 @@ export async function POST(req: Request, res: NextApiResponse) {
         if (isPdf){
 
             const baseDir = process.cwd();
-            const outputDir = path.join(baseDir, 'output');
-            fs.mkdirSync(outputDir, { recursive: true });  
 
-            const pdfPath = path.join(baseDir, 'temp.pdf');
+            const tempDir = path.join(baseDir, 'tmp')
+            fs.mkdirSync(tempDir, { recursive: true });
+
+            const outputDir = path.join(tempDir, 'output');
+            fs.mkdirSync(outputDir);  
+
+            const pdfPath = path.join(tempDir, 'temp.pdf');
             fs.writeFileSync(pdfPath, inputBuffer);
 
             const pdfArray = await pdf2img.convert(pdfPath);
             for (let i = 0; i < pdfArray.length; i++){
-                const filePath = path.join('./output', `page-${i + 1}.${outputFormat}`);
+                const filePath = path.join(outputDir, `page-${i + 1}.${outputFormat}`);
                 fs.writeFileSync(filePath, pdfArray[i]);
             }
 
@@ -76,6 +80,7 @@ export async function POST(req: Request, res: NextApiResponse) {
             fs.unlinkSync(pdfPath)
             files.forEach(file => fs.unlinkSync(path.join(outputDir, file)))
             fs.rmdirSync(outputDir)
+            fs.rmdirSync(tempDir)
             
             // send the response
             return new NextResponse(zipBuffer, {
