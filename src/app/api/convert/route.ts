@@ -57,7 +57,10 @@ export async function POST(req: Request, res: NextApiResponse) {
             const pdfPath = path.join(tempDir, 'temp.pdf');
             fs.writeFileSync(pdfPath, inputBuffer);
 
-            const pdfArray = await pdf2img.convert(pdfPath);
+            const pdfArray = await pdf2img.convert(pdfPath, {
+                scale: 4.0
+            });
+
             for (let i = 0; i < pdfArray.length; i++){
                 const filePath = path.join(outputDir, `page-${i + 1}.${outputFormat}`);
                 fs.writeFileSync(filePath, pdfArray[i]);
