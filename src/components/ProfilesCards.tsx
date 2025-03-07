@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import ViewPreferencesOfUser from "./ViewPreferencesOfUser";
 import { preferences } from "@/constants";
 import useGlobalState from "@/context/hook";
+import { GetCurrentUser } from "@/actions";
 
 type LOGOS = {
     instagram: StaticImageData,
@@ -50,21 +51,26 @@ export default function ProfilesCards({firstName, socials, budget, image, age, s
     const {push} = useRouter()
     const {openPreference, setOpenPreference, openFilter, setOpenFilter} = useGlobalState()
 
-    function handleSocialClick(socialLink: string){
-        // TODO: Check if the user is authenticated first
+    const handleSocialClick = async (link: string) => {
+        const user = await GetCurrentUser()
+        
+        if (user) {
+            window.open(link, '_blank')
+        } else {
+            push('/signin')
+        }
     }
 
-    function handleViewPreferences(){
-        //TODO: Check if the user is Authenticated 
-        const isAuth = true
-        if(isAuth){
-            if(openFilter){
+    async function handleViewPreferences() {
+        const user = await GetCurrentUser()
+        
+        if (user) {
+            if (openFilter) {
                 setOpenFilter(false)
             }
             setOpenPreference(true)
-        }
-        else{
-            push("/signin")
+        } else {
+            push('/signin')
         }
     }
 

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { CiSearch } from "react-icons/ci";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+// import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./ui/select";
+// import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { ASCENDING, GENDER_VALUES, QUERY_PARAMS, cities } from "@/constants";
 import { IoTimeOutline } from "react-icons/io5";
 import { IoMdRemoveCircle } from "react-icons/io";
@@ -12,6 +12,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useGlobalState from "@/context/hook";
 import Filters from "./small-peices/Filters";
 import SidebarFilter from "./SidebarFilter";
+import { SearchRoommates } from "@/actions"
+import { useSearch } from "@/context/SearchContext"
 
 export type STATE_TYPE = {
     searchInput: string,
@@ -41,6 +43,7 @@ export default function RoommateFilter() {
     const {replace} = useRouter()
     const searchParams = useSearchParams()
     const searchQuery = searchParams.get(QUERY_PARAMS.name)
+    const { setSearchResults, setIsLoading } = useSearch()
 
     useEffect(() => {
         if(searchQuery && !state.searchInput){
@@ -48,11 +51,27 @@ export default function RoommateFilter() {
         }
     }, [state.searchInput])
 
-    function handleSearchByName(){
+    async function handleSearchByName(){
         if(!state.searchInput) return
-        const param = new URLSearchParams(searchParams)
-        param.set(QUERY_PARAMS.name, state.searchInput)
-        replace(`${pathname}?${param.toString()}`)
+        const params = new URLSearchParams(searchParams.toString())
+        params.set(QUERY_PARAMS.name, state.searchInput)
+        replace(`${pathname}?${params.toString()}`)
+
+        try {
+            setIsLoading(true)
+            const results = await SearchRoommates({
+                name: state.searchInput,
+                gender: params.get(QUERY_PARAMS.gender) || undefined,
+                city: params.get(QUERY_PARAMS.city) || undefined,
+                minAge: state.minAge,
+                maxAge: state.maxAge
+            })
+            setSearchResults(results)
+        } catch (error) {
+            console.error('Search failed:', error)
+        } finally {
+            setIsLoading(false)
+        }
     }  
 
     function handleOpenSideFilter(){

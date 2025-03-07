@@ -4,9 +4,10 @@ import { SiginFormSchema, SignupFormSchema } from "@/lib/validation"
 import { db } from "@/lib/db"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { CheckIfPasswordsMatch, HashPassword, encrypt } from "@/utils"
+import { CheckIfPasswordsMatch, HashPassword, encrypt, decrypt } from "@/utils"
 import { cloudinary } from "../lib/Cloudinary/config"
 import {Readable} from "stream"
+import { cookies } from "next/headers"
 
 interface SecondStepActionProps {
     socialLinks: {type: string, link: string}[],
@@ -45,8 +46,15 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
                 error: "Invalid email or password"
             }
         }
-        // Generating a new jwt token and setting it as a cookie
-        await encrypt({email: user.email, name: user.firstName})
+        const cookieStore = cookies()
+        const token = await encrypt({email: user.email, name: user.firstName})
+        cookieStore.set('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+        })
+
         // returning the signed in user to the client
         return {
             id: user.id,
@@ -58,6 +66,23 @@ export async function Login(values: z.infer<typeof SiginFormSchema>){
     }
     catch(error: any){
         return {
+            error: error.message
+        }
+    }
+}
+export async function Logout(){
+    try {
+        const cookieStore = cookies()
+        cookieStore.delete('token')
+        
+        return {
+            success: true,
+            message: "Logged out successfully"
+        }
+    } catch (error: any) {
+        console.error('Logout error:', error)
+        return {
+            success: false,
             error: error.message
         }
     }
@@ -165,9 +190,35 @@ export async function ThirdStepUpdate({preferences, userId}: ThirdStepUpdateActi
     // revalidate the find-roommates page to include the current user
     revalidatePath("/find-roommates")
 }
-export async function GetCurrentUser(){
-    
-    
+export async function GetCurrentUser() {
+    try {
+        const cookieStore = cookies()
+        const token = cookieStore.get('token')
+        
+        if (!token) {
+            return null
+        }
+
+        const decoded = await decrypt(token.value)
+        
+        const user = await db.user.findUnique({
+            where: {
+                email: decoded.email
+            },
+            select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+                image: true,
+                completedRegistration: true
+            }
+        })
+
+        return user
+    } catch (error) {
+        return null
+    }
 }
 export async function UploadToCloudinary(formData: FormData) {
     try{
@@ -199,5 +250,67 @@ export async function UploadToCloudinary(formData: FormData) {
         return {
             error: "Something went wrong"
         }
+    }
+}
+export async function SearchRoommates(params: {
+    name?: string;
+    gender?: string;
+    city?: string;
+    minAge?: string;
+    maxAge?: string;
+}) {
+    try {
+        let query: any = {
+            where: {}
+        }
+
+        // Add name search
+        if (params.name) {
+            query.where.OR = [
+                { firstName: { contains: params.name, mode: 'insensitive' } },
+                { lastName: { contains: params.name, mode: 'insensitive' } }
+            ]
+        }
+
+        // Add gender filter
+        if (params.gender && params.gender !== 'all') {
+            query.where.gender = params.gender
+        }
+
+        // Add city filter
+        if (params.city && params.city !== 'all') {
+            query.where.city = params.city
+        }
+
+        // Add age range filter
+        if (params.minAge || params.maxAge) {
+            query.where.age = {}
+            if (params.minAge) query.where.age.gte = parseInt(params.minAge)
+            if (params.maxAge) query.where.age.lte = parseInt(params.maxAge)
+        }
+
+        const users = await db.user.findMany({
+            ...query,
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                gender: true,
+                age: true,
+                city: true,
+                image: true,
+                socials: true,
+                bio: true,
+                budget: true,
+                completedRegistration: true
+            }
+        })
+
+        return users
+
+    } catch (error: any) {
+        console.error('Search error:', error)
+        return []
     }
 }

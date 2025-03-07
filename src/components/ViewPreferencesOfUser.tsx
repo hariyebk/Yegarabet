@@ -1,6 +1,6 @@
 import { IoCloseCircleSharp } from "react-icons/io5";
 import ProfilesCards from "./ProfilesCards";
-import hari from "/public/hari.jpg"
+import user from "/public/user.png"
 
 interface Props {
     setViewProfile: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,7 +17,7 @@ export default function ViewPreferencesOfUser({setViewProfile, preferences} : Pr
                     </button>
                 </div>
                 <div className="mt-5 max-lg:hidden">
-                    <ProfilesCards firstName="Harun" socials={[{
+                    <ProfilesCards firstName="Eliyas" socials={[{
                             type: "instagram",
                             link: "https://instagram.com/hariyebk",
                         },
@@ -29,7 +29,7 @@ export default function ViewPreferencesOfUser({setViewProfile, preferences} : Pr
                             type: "linkedln",
                             link: "https://t.me/haribk",
                         }
-                    ]} image={hari} budget="10,000 birr / m" age={23} sex="Male" profession="Software developer" numberofRoommates={1} residenceLocation="Dire Dawa" i={4} details={true}/>
+                    ]} image={user} budget="10,000 birr / m" age={21} sex="Male" profession="User Student" numberofRoommates={1} residenceLocation="Dire Dawa" i={4} details={true}/>
                 </div>
                 <h3 className="text-xl text-primary font-semibold mt-8 underline underline-offset-2"> Quiz Answers </h3>
                 <ul className="mt-4 mb-10">

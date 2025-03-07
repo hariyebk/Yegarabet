@@ -1,31 +1,37 @@
-import { SignJWT, jwtVerify } from "jose";
+import { SignJWT } from 'jose'
+import { jwtVerify } from "jose";
 import {cookies} from "next/headers"
 import bcrypt from "bcrypt"
+import { getJwtSecretKey } from '@/lib/auth'
 
 const secretKey = process.env.JWT_SECRET;
-const key = new TextEncoder().encode(secretKey);
+const key = new TextEncoder().encode(getJwtSecretKey())
 
+interface JWTPayload {
+    email: string;
+    name: string;
+}
 
-export async function encrypt(payload: any){
-    const session = await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("10 sec from now")
-    .sign(key);
-
+export async function encrypt(payload: {email: string, name: string}): Promise<string> {
+    const token = await new SignJWT(payload)
+        .setProtectedHeader({ alg: "HS256" })
+        .setIssuedAt()
+        .setExpirationTime("7d")
+        .sign(key);
+    
     cookies().set({
         name: "session",
-        value: session,
+        value: token,
         httpOnly: true,
         sameSite: "lax"
     })
+
+    return token;
 }
 
-export async function decrypt(input: string): Promise<any> {
-    const { payload } = await jwtVerify(input, key, {
-        algorithms: ["HS256"],
-    });
-    return payload;
+export async function decrypt(token: string): Promise<JWTPayload> {
+    const { payload } = await jwtVerify(token, key)
+    return payload as unknown as JWTPayload
 }
 
 export async function getSession() {
